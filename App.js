@@ -72,14 +72,17 @@ export class App extends Component {
             <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
             <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
-            <Stack.Screen name="Main" component={MainScreen}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       );
     }
     return(
       <Provider store={store}>
-        <MainScreen/>
+        <NavigationContainer>
+          <Stack.Navigator initialRoutName="Main">
+            <Stack.Screen name="Main" component={MainScreen} options={{headerShown:false}}></Stack.Screen>
+          </Stack.Navigator>  
+        </NavigationContainer>
       </Provider>
     )
   }
