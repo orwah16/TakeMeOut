@@ -1,9 +1,18 @@
 import React from 'react'
-import {View,Text} from 'react-native'
+import {View,StyleSheet,StatusBar} from 'react-native'
+import SearchBar  from './SearchBar'
+import SearchCard from './SearchCard'
+import ScreenTop from './ScreenTop'
+
 export default function Feed() {
     return (
         <View>
-            <Text>Feed</Text>
+            <ScreenTop>
+                <SearchBar/>
+            </ScreenTop>
+            <SearchCard/>
         </View>
     )
 }
+
+const styles = StyleSheet.create({})

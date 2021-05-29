@@ -5,10 +5,10 @@ import firebase from 'firebase'
 require("firebase/firestore")
 require("firebase/firebase-storage")
 
-export default function save(props) {
+export default function save(props,navigation) {
     //console.log(props.route.params.image)//can find this path in the object in the console
     const [caption, setCaption] = useState("")
-    const uploadImgae = async () => {
+    const uploadImage = async () => {
         const uri = props.route.params.image;
         const resposnse = await fetch(uri);
         const blob = await Response.blob();
@@ -23,6 +23,7 @@ export default function save(props) {
         }
         const taskCompleted = () => {
             task.snapshot.ref.getDownloadURL().then((snapshot)=>{
+                savePostData(snapshot);
                 console.log(snapshot)
             })
         }
@@ -30,6 +31,17 @@ export default function save(props) {
             console.log(snapshot)
         }
         task.on("state_changed",taskProgress, taskError, taskCompleted);
+    }
+    const savePostData = (downloadURL) => {
+        firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid)
+        .collection("userPosts")
+        .add({
+            downloadURL,
+            caption,
+            creation: firebase.firestore().fieldValue.serverTimstamp()
+        }).then((function(){
+            navigation.popToTop()//poptottop goes to the first rout (Main)
+        }))
     }
     return (
         <View style={{flex: 1}}>

@@ -93,10 +93,3 @@ const styles = StyleSheet.create({
 
 
 
-// export default function Add() {
-//     return(
-//         <View>
-//             <Text>Add</Text>
-//         </View>
-//    )  
-// }
