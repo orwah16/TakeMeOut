@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         borderRadius: 8,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 10
     },
     searchInput: {
         width: '100%',

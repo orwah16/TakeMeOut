@@ -1,4 +1,5 @@
 import { Text } from 'react-native'
+import React from 'react'
 
 const Title = ({children, numberOfLines=2, size=18}) => {
     return (

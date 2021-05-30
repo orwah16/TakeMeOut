@@ -9,10 +9,11 @@ export default function Feed() {
     //const tag = data.filter(item = > item.categroy === 'tag') for filtering
     return (
         <React.Fragment>
+            <ScreenTop>
             <SearchBar/>
             
             <VerticalList data={data}/>
-
+            </ScreenTop>
         </React.Fragment>
     )
 }
