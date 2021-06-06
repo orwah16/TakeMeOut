@@ -1,14 +1,16 @@
 import React from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 import SearchCard from './SearchCard'
-
+import {useNavigation} from '@react-navigation/native';
+import Post from './Post'
 const VerticalList = ({data}) => {
+    const navigation = useNavigation();
     return (
         <View>
             <FlatList
             data={data} keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
-            renderItem={({item}) => <SearchCard item={item}/>}/>
+            renderItem={({item}) => <SearchCard item={item} onPress={()=> navigation.navigate('Post',{item})}/>}/>
         </View>
     )
 }

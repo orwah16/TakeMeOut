@@ -1,18 +1,20 @@
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View ,TouchableWithoutFeedback} from 'react-native'
 import React from 'react';
 import Title from './Title'
 import Subtitle from './Subtitle'
 
-const SearchCard = ({style,imageStyle,item}) => {//these two props are for making componints styles more Flexible 
+const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
     const{thumbnail,title,desc}= item;
     return (
-        <View style={[styles.container,style]}>
-            <Image source={{uri: thumbnail} } style={[styles.image,imageStyle]}/>
-            <View style={styles.contentContainer}>
-            <Title>{title}</Title>
-            <Subtitle>{desc}</Subtitle>
+        <TouchableWithoutFeedback onPress={onPress}>
+            <View style={[styles.container,style]}>
+                <Image source={{uri: thumbnail} } style={[styles.image,imageStyle]}/>
+                <View style={styles.contentContainer}>
+                <Title>{title}</Title>
+                <Subtitle>{desc}</Subtitle>
+                </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     )
 }
 

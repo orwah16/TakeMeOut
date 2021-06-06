@@ -73,6 +73,7 @@ export class App extends Component {
             <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
             <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+
           </Stack.Navigator>
         </NavigationContainer>
       );
