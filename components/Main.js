@@ -21,13 +21,13 @@ export class Main extends Component {
     render() {
         return (
             <Tab.Navigator initialRoutName="Feed">
-                <Tab.Screen name="Add" component={AddScreen} 
+                {/* <Tab.Screen name="Add" component={AddScreen} 
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="plus-box" color={color} size={26} />
                         ),
                     }} 
-                />              
+                />               */}
                 <Tab.Screen name="Feed" component={FeedScreen} 
                     options={{
                         tabBarIcon: ({ color, size }) => (

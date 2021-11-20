@@ -9,7 +9,6 @@ import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDrOQDj1eIgMDMrbYCh0VwgexFNJ-GtezY",
   authDomain: "takemeout-4329b.firebaseapp.com",
@@ -20,9 +19,25 @@ const firebaseConfig = {
   measurementId: "G-5YFV74KLYH"
 };
 
+
 if(firebase.apps.length === 0){
   firebase.initializeApp(firebaseConfig)
 }
+
+//const mysql = require('mysql');
+
+// const con = mysql.createConnection({
+//     host: "takemeout-db.cdy8jqdsg1b3.us-east-2.rds.amazonaws.com",
+//     user: "admin",
+//     password: "123456789"
+// });
+
+// con.connect(function(err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+//     con.end();
+// });
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -35,11 +50,12 @@ import SaveScreen from './components/main/Save'
 
 const Stack = createStackNavigator();
 
-export class App extends Component {
+class App extends Component {
   constructor(props){
     super(props);
     this.state={
       loaded:false,
+      data:null
     }
   }
   componentDidMount(){
@@ -56,6 +72,12 @@ export class App extends Component {
         })
       }
     })
+    this.callBackendAPI()
+      .then(res=>this.setState({data: res.express}))
+      .catch(err=>console.log(err));
+  }
+  callBackendAPI = async () => {
+
   }
   render(){
     const {loggedIn,loaded} = this.state;
@@ -73,6 +95,7 @@ export class App extends Component {
             <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}></Stack.Screen>
             <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
             <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+            {/* <Stack.Screen name="Post" component={PostScreen} ></Stack.Screen> */}
 
           </Stack.Navigator>
         </NavigationContainer>
@@ -83,7 +106,7 @@ export class App extends Component {
         <NavigationContainer>
           <Stack.Navigator initialRoutName="Main">
             <Stack.Screen name="Main" component={MainScreen} options={{headerShown:false}}></Stack.Screen>
-            <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}></Stack.Screen>
+            {/* <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}></Stack.Screen> */}
             <Stack.Screen name="Save" component={SaveScreen}></Stack.Screen>
           </Stack.Navigator>  
         </NavigationContainer>
