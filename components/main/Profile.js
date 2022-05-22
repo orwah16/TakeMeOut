@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import data from './fakeData'
 import {
   Animated,
   Image,
@@ -8,7 +9,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
 import {
   TabView,
   TabBar,
@@ -18,6 +18,7 @@ import {
 import PropTypes from 'prop-types'
 
 import Posts from './Posts'
+import VerticalList from './VerticalList'
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -40,13 +41,6 @@ const styles = StyleSheet.create({
   },
   sceneContainer: {
     marginTop: 10,
-  },
-  socialIcon: {
-    marginLeft: 14,
-    marginRight: 14,
-  },
-  socialRow: {
-    flexDirection: 'row',
   },
   tabBar: {
     backgroundColor: '#EEE',
@@ -101,27 +95,29 @@ class Profile extends Component {
     static propTypes = {
       avatar: PropTypes.string,
       name: PropTypes.string,
-      bio: PropTypes.string,
+     // bio: PropTypes.string,
+     phone: PropTypes.string,
+     city: PropTypes.string,
       containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-      tabContainerStyle: PropTypes.oneOfType([
+      tabContainerStyle: PropTypes.oneOfType([ //stats
         PropTypes.object,
         PropTypes.number,
       ]),
-      posts: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          words: PropTypes.string,
-          sentence: PropTypes.string,
-          paragraph: PropTypes.string,
-          image: PropTypes.string,
-          user: PropTypes.shape({
-            name: PropTypes.string,
-            username: PropTypes.string,
-            avatar: PropTypes.string,
-            email: PropTypes.string,
-          }),
-        })
-      ).isRequired,
+    //   posts: PropTypes.arrayOf(
+    //     PropTypes.shape({
+    //       id: PropTypes.number,
+    //       words: PropTypes.string,
+    //       sentence: PropTypes.string,
+    //       paragraph: PropTypes.string,
+    //       image: PropTypes.string,
+    //       user: PropTypes.shape({
+    //         name: PropTypes.string,
+    //         username: PropTypes.string,
+    //         avatar: PropTypes.string,
+    //         email: PropTypes.string,
+    //       }),
+    //     })
+    //   ).isRequired,
     }
   
     static defaultProps = {
@@ -133,10 +129,9 @@ class Profile extends Component {
       tabs: {
         index: 0,
         routes: [
-          { key: '1', title: 'likes', count: 0 },
-          { key: '2', title: 'interests', count: 0 },
-          { key: '3', title: 'activities', count: 5 },
-          { key: '4', title: 'friends', count: 100 },
+          { key: '1', title: 'interests', count: 0 },
+          { key: '2', title: 'activities', count: 0 },
+          { key: '3', title: 'friends', count: 5 },
         ],
       },
     }
@@ -164,7 +159,7 @@ class Profile extends Component {
       />
     };
   
-    renderLabel = props => ({ route }) => {
+    renderLabel = props => ({ route }) => {//
       const routes = props.navigationState.routes
   
       let labels = []
@@ -192,13 +187,11 @@ class Profile extends Component {
   
       switch (key) {
         case '1':
-          return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+          return <VerticalList data={data}/> //interests
         case '2':
-          return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+          return <VerticalList data={data} /> //activities(posts)
         case '3':
-          return <Posts containerStyle={styles.sceneContainer} posts={posts} />
-        case '4':
-          return <Posts containerStyle={styles.sceneContainer} posts={posts} />
+          return <VerticalList data={data} /> //friends
         default:
           return <View />
       }
@@ -212,43 +205,9 @@ class Profile extends Component {
           <View style={styles.userRow}>
             <Image
               style={styles.userImage}
-              source={{uri: '../../assets/porfilepic'}}  // should be changed to avatar
+              source={{uri: '../../assets/porfilepic.png'}}  // should be changed to avatar
             />
-            <View style={styles.userNameRow}>
-              <Text style={styles.userNameText}>{name}</Text>
-            </View>
-            <View style={styles.userBioRow}>
-              <Text style={styles.userBioText}>{bio}</Text>
-            </View>
-          </View>
-          <View style={styles.socialRow}>
-            <View>
-              <Icon
-                size={30}
-                type="entypo"
-                color="#3B5A98"
-                name="facebook-with-circle"
-                onPress={() => console.log('facebook')}
-              />
-            </View>
-            <View style={styles.socialIcon}>
-              <Icon
-                size={30}
-                type="entypo"
-                color="#56ACEE"
-                name="twitter-with-circle"
-                onPress={() => console.log('twitter')}
-              />
-            </View>
-            <View>
-              <Icon
-                size={30}
-                type="entypo"
-                color="#DD4C39"
-                name="google--with-circle"
-                onPress={() => console.log('google')}
-              />
-            </View>
+
           </View>
         </View>
       )
@@ -266,7 +225,7 @@ class Profile extends Component {
                 renderScene={this.renderScene}
                 renderTabBar={this.renderTabBar}
                 onIndexChange={this.handleIndexChange}
-              />
+                />
             </View>
           </View>
         </ScrollView>
@@ -275,10 +234,3 @@ class Profile extends Component {
   }
   
   export default Profile
-// export default function Profile() {
-//     return (
-//         <View>
-//             <Text>Profile</Text>
-//         </View>
-//     )
-// }

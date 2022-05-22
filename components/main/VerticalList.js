@@ -7,7 +7,7 @@ const VerticalList = ({data}) => {
     const navigation = useNavigation();
     return (
         <View>
-            <FlatList
+            <FlatList nestedScrollEnabled={true}
             data={data} keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => <SearchCard item={item} onPress={()=> navigation.navigate('Post',{item})}/>}/>
