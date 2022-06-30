@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { Text, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
-import { fetchUser } from '../redux/actions/index'
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { fetchUser } from '../redux/actions/index';
+import userReducer from '../App';
 
-import FeedScreen from './main/Feed'
-import AddScreen from './main/Add'
-import ProfileScreen from './main/Profile'
+import FeedScreen from './main/Feed';
+import AddScreen from './main/Add';
+import ProfileScreen from './main/Profile';
 
 const Tab = createMaterialBottomTabNavigator();
 
 
-export class Main extends Component {
-    componentDidMount(){ //user logged in
-        this.props.fetchUser();
-    }
-    render() {
+function Main (){
+    useEffect(()=>{ //user logged in
+        //this.props.fetchUser();
+    });
         return (
             <Tab.Navigator initialRoutName="Feed">
                 {/* <Tab.Screen name="Add" component={AddScreen} 
@@ -43,12 +43,11 @@ export class Main extends Component {
                     }} 
                 />
             </Tab.Navigator>
-        )
-    }
+        );
 }
-
-const mapStateToProps = (store) => ({
-    currentUser: store.userState.currentUser
-})
-const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser},dispatch);
-export default connect(mapStateToProps,mapDispatchProps)(Main);
+export default Main;
+// const mapStateToProps = (store) => ({
+//     currentUser: store.userState.currentUser
+// })
+// const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser},dispatch);
+// export default connect(mapStateToProps,mapDispatchProps)(Main);
