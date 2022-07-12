@@ -1,8 +1,8 @@
-import React from 'react'
 import {Button} from 'react-native'
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/reducers/user';
 import data from './fakeData'
+import React, {useState } from 'react'
 import {
   Animated,
   Image,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 })
 export default function Profile () {
   const dispatch = useDispatch();
+  //const[tabs,setTabs]=useState('');
 
     //   avatar: PropTypes.string,
     //   name: PropTypes.string,
@@ -127,7 +128,7 @@ export default function Profile () {
   //     containerStyle: {},
   //     tabContainerStyle: {},
   //   }
-    const state = {
+    const [state,setTabs] = useState({
       tabs: {
         index: 0,
         routes: [
@@ -136,8 +137,8 @@ export default function Profile () {
           { key: '3', title: 'friends', count: 5 },
         ],
       },
-    }
-
+    });
+    
     const onLogOut = (event) => {
       try{
 
@@ -154,9 +155,9 @@ export default function Profile () {
   
     const handleIndexChange = index => {
       console.log("rendering handel index exchange");
-      this.setState({
+      setTabs({
         tabs: {
-          ...this.state.tabs,
+          ...state.tabs,
           index,
         },
       })
