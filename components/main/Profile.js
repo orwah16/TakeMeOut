@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {Button} from 'react-native'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/reducers/user';
 import data from './fakeData'
 import {
   Animated,
@@ -91,41 +94,40 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 })
-class Profile extends Component {
-    static propTypes = {
-      avatar: PropTypes.string,
-      name: PropTypes.string,
-     // bio: PropTypes.string,
-     phone: PropTypes.string,
-     city: PropTypes.string,
-      containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-      tabContainerStyle: PropTypes.oneOfType([ //stats
-        PropTypes.object,
-        PropTypes.number,
-      ]),
-    //   posts: PropTypes.arrayOf(
-    //     PropTypes.shape({
-    //       id: PropTypes.number,
-    //       words: PropTypes.string,
-    //       sentence: PropTypes.string,
-    //       paragraph: PropTypes.string,
-    //       image: PropTypes.string,
-    //       user: PropTypes.shape({
-    //         name: PropTypes.string,
-    //         username: PropTypes.string,
-    //         avatar: PropTypes.string,
-    //         email: PropTypes.string,
-    //       }),
-    //     })
-    //   ).isRequired,
-    }
-  
-    static defaultProps = {
-      containerStyle: {},
-      tabContainerStyle: {},
-    }
-  
-    state = {
+export default function Profile () {
+  const dispatch = useDispatch();
+
+    //   avatar: PropTypes.string,
+    //   name: PropTypes.string,
+    //  // bio: PropTypes.string,
+    //  phone: PropTypes.string,
+    //  city: PropTypes.string,
+    //   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    //   tabContainerStyle: PropTypes.oneOfType([ //stats
+    //     PropTypes.object,
+    //     PropTypes.number,
+    //   ]),
+      // posts: PropTypes.arrayOf(
+      //   PropTypes.shape({
+      //     id: PropTypes.number,
+      //     words: PropTypes.string,
+      //     sentence: PropTypes.string,
+      //     paragraph: PropTypes.string,
+      //     image: PropTypes.string,
+      //     user: PropTypes.shape({
+      //       name: PropTypes.string,
+      //       username: PropTypes.string,
+      //       avatar: PropTypes.string,
+      //       email: PropTypes.string,
+      //     }),
+      //   })
+      // ).isRequired,
+
+  //  defaultProps = {
+  //     containerStyle: {},
+  //     tabContainerStyle: {},
+  //   }
+    const state = {
       tabs: {
         index: 0,
         routes: [
@@ -135,12 +137,23 @@ class Profile extends Component {
         ],
       },
     }
+
+    const onLogOut = (event) => {
+      try{
+
+          console.log("onLogOut");
+          dispatch(logout());
+      } catch (error) {
+          console.log('Error loging out user.',error.message); 
+      }
+    }
   
-    onPressPlace = () => {
+    const onPressPlace = () => {
       console.log('place')
     }
   
-    handleIndexChange = index => {
+    const handleIndexChange = index => {
+      console.log("rendering handel index exchange");
       this.setState({
         tabs: {
           ...this.state.tabs,
@@ -149,17 +162,18 @@ class Profile extends Component {
       })
     }
   
-    renderTabBar = props => {
+    const renderTabBar = props => {
+      console.log("rendering tab bar");
       return <TabBar
         indicatorStyle={styles.indicatorTab}
-        renderLabel={this.renderLabel(props)}
+        renderLabel={renderLabel(props)}
         pressOpacity={0.8}
         style={styles.tabBar}
         {...props}
       />
     };
   
-    renderLabel = props => ({ route }) => {//
+    const renderLabel = props => ({ route }) => {//
       const routes = props.navigationState.routes
   
       let labels = []
@@ -182,9 +196,9 @@ class Profile extends Component {
       )
     }
   
-    renderScene = ({ route: { key } }) => {
-      const { posts } = this.props
-  
+    const renderScene = ({ route: { key } }) => {
+      //const { posts } = this.props
+      console.log("rendering scene");
       switch (key) {
         case '1':
           return <VerticalList data={data}/> //interests
@@ -197,9 +211,9 @@ class Profile extends Component {
       }
     }
   
-    renderContactHeader = () => {
-      const { avatar, name, bio } = this.props
-  
+    const renderContactHeader = () => {
+      //const { avatar, name, bio } = this.props
+      console.log("rendering contact header");
       return (
         <View style={styles.headerContainer}>
           <View style={styles.userRow}>
@@ -212,25 +226,28 @@ class Profile extends Component {
         </View>
       )
     }
-  
-    render() {
+
       return (
+
         <ScrollView style={styles.scroll}>
-          <View style={[styles.container, this.props.containerStyle]}>
+        <Button
+          onPress={() => onLogOut()}
+          title= "Log Out"
+          color= "grey"
+        />
+          <View style={[styles.container]}>
             <View style={styles.cardContainer}>
-              {this.renderContactHeader()}
-              <TabView
-                style={[styles.tabContainer, this.props.tabContainerStyle]}
-                navigationState={this.state.tabs}
-                renderScene={this.renderScene}
-                renderTabBar={this.renderTabBar}
-                onIndexChange={this.handleIndexChange}
-                />
+            <TabView
+              style={[styles.tabContainer]}
+              navigationState={state.tabs}
+              renderScene={renderScene}
+              renderTabBar={renderTabBar}
+              onIndexChange={handleIndexChange}
+            />
             </View>
           </View>
         </ScrollView>
       )
     }
-  }
-  
-  export default Profile
+
+              

@@ -5,12 +5,15 @@ import firebase from "firebase/app";
 import "firebase/auth"
 import { useDispatch } from 'react-redux';
 import {login} from '../../redux/reducers/user';
+import {addUser} from '../../API';
 
 function Register(){
     const dispatch = useDispatch();
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('');
-    const [name, setName] = useState('');
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
+
     const registerToApp = (event) =>{
         
         firebase.auth().createUserWithEmailAndPassword(email.email, password.password)
@@ -19,10 +22,13 @@ function Register(){
                 login({
                   email: userAuth.user.email,
                   user_id: userAuth.user.uid,
-                  name: userAuth.user.name,
+                  first_name: first_name.first_name,
+                  last_name: last_name.last_name,
                 })
             )
         })
+        .then(addUser())
+        //.then(console.log("first name:",first_name))
         .catch((error) => {
            console.log('user not added');
         });
@@ -30,8 +36,12 @@ function Register(){
         return (
             <View>
                 <TextInput
-                    placeholder="name"
-                    onChangeText={(name) => setName({name})}
+                    placeholder="first name"
+                    onChangeText={(first_name) => setFirstName({first_name})}
+                />
+                <TextInput
+                    placeholder="last name"
+                    onChangeText={(last_name) => setLastName({last_name})}
                 />
                 <TextInput
                     placeholder="email"

@@ -57,7 +57,7 @@ function Index(){
       });
     },[]);
       if(!user){
-        console.log('user inside 1 =',user);
+        console.log('user inside log in =',user);
         return (
           <NavigationContainer>
             <Stack.Navigator initialRoutName="Landing">
@@ -70,7 +70,7 @@ function Index(){
           </NavigationContainer>
         );
       }
-      console.log('user inside 2 =',user);
+      console.log('user inside feed =',user);
 
       return(
             
