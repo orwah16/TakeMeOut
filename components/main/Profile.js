@@ -1,8 +1,8 @@
-import {Button} from 'react-native'
+import {Button,TextInput} from 'react-native'
 import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/reducers/user';
-import data from './fakeData'
-import React, {useState } from 'react'
+import { logout,getInterest } from '../../redux/reducers/user';
+import data from './fakeData';
+import React, {useState } from 'react';
 import {
   Animated,
   Image,
@@ -11,17 +11,18 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native'
+} from 'react-native';
 import {
   TabView,
   TabBar,
   TabViewPagerScroll,
   TabViewPagerPan,
-} from 'react-native-tab-view'
-import PropTypes from 'prop-types'
+} from 'react-native-tab-view';
+import PropTypes from 'prop-types';
 
-import Posts from './Posts'
-import VerticalList from './VerticalList'
+import Posts from './Posts';
+import VerticalList from './VerticalList';
+import interests from './Interests';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -96,39 +97,9 @@ const styles = StyleSheet.create({
 })
 export default function Profile () {
   const dispatch = useDispatch();
-  //const[tabs,setTabs]=useState('');
+  const[interest,setInterest]=useState([]);
 
-    //   avatar: PropTypes.string,
-    //   name: PropTypes.string,
-    //  // bio: PropTypes.string,
-    //  phone: PropTypes.string,
-    //  city: PropTypes.string,
-    //   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    //   tabContainerStyle: PropTypes.oneOfType([ //stats
-    //     PropTypes.object,
-    //     PropTypes.number,
-    //   ]),
-      // posts: PropTypes.arrayOf(
-      //   PropTypes.shape({
-      //     id: PropTypes.number,
-      //     words: PropTypes.string,
-      //     sentence: PropTypes.string,
-      //     paragraph: PropTypes.string,
-      //     image: PropTypes.string,
-      //     user: PropTypes.shape({
-      //       name: PropTypes.string,
-      //       username: PropTypes.string,
-      //       avatar: PropTypes.string,
-      //       email: PropTypes.string,
-      //     }),
-      //   })
-      // ).isRequired,
-
-  //  defaultProps = {
-  //     containerStyle: {},
-  //     tabContainerStyle: {},
-  //   }
-    const [state,setTabs] = useState({
+    const [tabState,setTabs] = useState({
       tabs: {
         index: 0,
         routes: [
@@ -138,10 +109,27 @@ export default function Profile () {
         ],
       },
     });
-    
+  //   setInterest({
+  //     interest: [...interest, newInterest]//or use concat to add interest
+  // })
+  const addInterest = (newInterest) => {
+   // setInterest([...interest, newInterest]);
+   console.log("new interest: ",newInterest);
+      //var interest=newInterest.reverse()[0];
+      dispatch(
+          getInterest({
+            interest: interest,
+          })
+      )//.then(addUserInterest(newInterest))
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //  });
+  }
+
+
+
     const onLogOut = (event) => {
       try{
-
           console.log("onLogOut");
           dispatch(logout());
       } catch (error) {
@@ -157,7 +145,7 @@ export default function Profile () {
       console.log("rendering handel index exchange");
       setTabs({
         tabs: {
-          ...state.tabs,
+          ...tabState.tabs,
           index,
         },
       })
@@ -202,7 +190,16 @@ export default function Profile () {
       console.log("rendering scene");
       switch (key) {
         case '1':
-          return <VerticalList data={data}/> //interests
+          return (        <View>
+            <TextInput
+                placeholder="Write an Interest of yours"
+                onChangeText={(newInterest) => setInterest([...interest, newInterest])}
+            />
+            <Button
+                onPress={()=> addInterest()}
+                title="Add"
+            />
+        </View>) //interests
         case '2':
           return <VerticalList data={data} /> //activities(posts)
         case '3':
@@ -211,6 +208,8 @@ export default function Profile () {
           return <View />
       }
     }
+
+
   
     const renderContactHeader = () => {
       //const { avatar, name, bio } = this.props
@@ -240,7 +239,7 @@ export default function Profile () {
             <View style={styles.cardContainer}>
             <TabView
               style={[styles.tabContainer]}
-              navigationState={state.tabs}
+              navigationState={tabState.tabs}
               renderScene={renderScene}
               renderTabBar={renderTabBar}
               onIndexChange={handleIndexChange}

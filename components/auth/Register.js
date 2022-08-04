@@ -4,8 +4,10 @@ import {View,Button,TextInput} from 'react-native'
 import firebase from "firebase/app";
 import "firebase/auth"
 import { useDispatch } from 'react-redux';
-import {login} from '../../redux/reducers/user';
-import {addUser} from '../../API';
+import {updateName} from '../../redux/reducers/user';
+import {addUser,getUserByEmail} from '../../API';
+//import '../../Index'
+
 
 function Register(){
     const dispatch = useDispatch();
@@ -17,20 +19,32 @@ function Register(){
     const registerToApp = (event) =>{
         
         firebase.auth().createUserWithEmailAndPassword(email.email, password.password)
-        .then((userAuth) => {
+        .then(() => {
+            console.log("dispatch mother fucker");
             dispatch(
-                login({
-                  email: userAuth.user.email,
-                  user_id: userAuth.user.uid,
+                updateName({
                   first_name: first_name.first_name,
                   last_name: last_name.last_name,
                 })
             )
         })
-        .then(addUser())
+        .then(addUser(first_name.first_name,last_name.last_name,email.email))
+        // .then()
+        // .then(()=>{
+        //     var userID;
+        //     userID=getUserByEmail(email.email);
+        //     log.console("Login=>userID for getUserByEmail: ",updateId);
+        //     dispatch(
+        //       updateId({
+        //             user_id: userID,
+        //         })
+        //     )
+        // })
+        
         //.then(console.log("first name:",first_name))
         .catch((error) => {
            console.log('user not added');
+           console.log("first name: ",first_name.first_name);
         });
     }
         return (
@@ -62,58 +76,3 @@ function Register(){
 
 export default Register;
 
-
-// export class Register extends Component {
-//     constructor(props){
-//         super(props);
-
-//         this.state = {
-//             email : '',
-//             password : '',
-//             name: ''
-//         }
-//         this.onSignUp=this.onSignUp.bind(this)
-//     }
-//     onSignUp(){
-//         const{ email, password, name} = this.state;
-//         firebase.auth().createUserWithEmailAndPassword(email, password)
-//         .then((result) => {
-//             firebase.firestore().collection("users")
-//                 .doc(firebase.auth().currentUser.uid)
-//                 .set({
-//                     name,
-//                     email
-//                 })
-//             console.log(result)
-//         })
-//         .catch((error) => {
-//             console.log(error)
-//         })
-        
-//     }
-//     render() {
-//         return (
-//             <View>
-//                 <TextInput
-//                     placeholder="name"
-//                     onChangeText={(name) => this.setState({name})}
-//                 />
-//                 <TextInput
-//                     placeholder="email"
-//                     onChangeText={(email) => this.setState({email})}
-//                 />
-//                 <TextInput
-//                     placeholder="password"
-//                     secureTextEntry={true}
-//                     onChangeText={(password) => this.setState({password})}
-//                 />
-//                 <Button
-//                     onPress={()=> this.onSignUp()}
-//                     title="Sign Up"
-//                 />
-//             </View>
-//         )
-//     }
-// }
-
-//export default Register

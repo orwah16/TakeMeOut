@@ -47,9 +47,16 @@ function Index(){
           dispatch(
             login({
               email: userAuth.email,
-              user_id: userAuth.uid,
             })
           );
+          console.log('Index => email=',userAuth.email);  
+          var userID=getUserByEmail(userAuth.email);
+          console.log('Index => userID=',userID);  
+          dispatch(
+            updateId({
+              user_id: userID,
+          })
+          )
           console.log('user after dispatch=',user);
         }else{
           dispatch(logout());

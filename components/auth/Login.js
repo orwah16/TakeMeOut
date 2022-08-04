@@ -4,7 +4,8 @@ import {View,Button,TextInput} from 'react-native';
 import firebase from "firebase/app";
 import "firebase/auth";
 import { useDispatch } from 'react-redux';
-import {login} from '../../redux/reducers/user';
+import {login,updateId} from '../../redux/reducers/user';
+import {getUserByEmail} from '../../API';
 
 function Login() {
     const dispatch = useDispatch();
@@ -15,15 +16,29 @@ function Login() {
         firebase.auth().signInWithEmailAndPassword(email.email, password.password)
         .then((userAuth) => {
             //update profile  updateProfile(userAuth.user, {  .... })
-            dispatch(
-                login({
-                  email: userAuth.user.email,
-                  user_id: userAuth.user.uid,
-                  name:userAuth.user.name,
-                })
-              )
+            console.log("dispatching login");
+
+            // dispatch(
+            //     login({
+            //       email: userAuth.user.email,
+            //       //user_id: userAuth.user.uid,
+            //       name:userAuth.user.name,
+            //     })
+            //   )
           })
+        //   .then(()=>{
+        //       console.log("geting id by email");
+        //       var userID;
+        //       userID=getUserByEmail(email.email);
+        //       console.log("Login=>userID for getUserByEmail: ",userID);
+        //       dispatch(
+        //         updateId({
+        //               user_id: userID,
+        //           })
+        //       )
+        //   })
           .catch((error) => {
+            console.log(error);
             console.log('user not updated');
           });
         }
@@ -49,46 +64,3 @@ function Login() {
 
 export default Login;
 
-// export class Login extends Component {
-//     constructor(props){
-//         super(props);
-
-//         this.state = {
-//             email : '',
-//             password : '',
-//         }
-//         this.onSignUp=this.onSignUp.bind(this)
-//     }
-//     onSignUp(){
-//         const{ email, password} = this.state;
-//         firebase.auth().signInWithEmailAndPassword(email, password)
-//         .then((result) => {
-//             console.log(result)
-//         })
-//         .catch((error) => {
-//             console.log(error)
-//         })
-        
-//     }
-//     render() {
-//         return (
-//             <View>
-//                 <TextInput
-//                     placeholder="email"
-//                     onChangeText={(email) => this.setState({email})}
-//                 />
-//                 <TextInput
-//                     placeholder="password"
-//                     secureTextEntry={true}
-//                     onChangeText={(password) => this.setState({password})}
-//                 />
-//                 <Button
-//                     onPress={()=> this.onSignUp()}
-//                     title="Sign In"
-//                 />
-//             </View>
-//         )
-//     }
-// }
-
-// export default Login
