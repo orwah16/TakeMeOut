@@ -14,11 +14,12 @@ export const getUsers = async () => {
 
 export const getUserByEmail = async (email) => {
     try {
-        const res = await apiClient.get('/users/$1',[email]);
+        console.log('email sent to backend: ',email);
+        const res = await apiClient.get('/users/'+email);
+        console.log('user_id returned from backend: ',res);
         return res;
     } catch (error) {
         console.log('Error while getting user.',error.message)
-        return[];
     }
 }
 

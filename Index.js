@@ -13,7 +13,8 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
-import { login, logout, selectUser } from './redux/reducers/user';
+import { login, logout, selectUser,updateId } from './redux/reducers/user';
+import {getUserByEmail} from './API';
 import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 //import firebaseConfig from './App'
@@ -39,6 +40,7 @@ function Index(){
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
     const Stack = createStackNavigator();
+    var userID; 
     useEffect(() => {
       firebase.auth().onAuthStateChanged((userAuth) => {
         console.log('userAuth=',userAuth);
@@ -49,14 +51,16 @@ function Index(){
               email: userAuth.email,
             })
           );
-          console.log('Index => email=',userAuth.email);  
-          var userID=getUserByEmail(userAuth.email);
-          console.log('Index => userID=',userID);  
-          dispatch(
-            updateId({
-              user_id: userID,
+          console.log('Index => email=',userAuth.email); 
+          
+          getUserByEmail(userAuth.email).then((response) => {
+            console.log('response: ',response.data);
+            dispatch(
+              updateId({
+                user_id: response.data,
+            }))
           })
-          )
+          console.log('Index => userID=',userID);  
           console.log('user after dispatch=',user);
         }else{
           dispatch(logout());
