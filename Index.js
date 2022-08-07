@@ -52,7 +52,6 @@ function Index(){
             })
           );
           console.log('Index => email=',userAuth.email); 
-          
           getUserByEmail(userAuth.email).then((response) => {
             console.log('response: ',response.data);
             dispatch(

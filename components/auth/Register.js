@@ -29,19 +29,6 @@ function Register(){
             )
         })
         .then(addUser(first_name.first_name,last_name.last_name,email.email))
-        // .then()
-        // .then(()=>{
-        //     var userID;
-        //     userID=getUserByEmail(email.email);
-        //     log.console("Login=>userID for getUserByEmail: ",updateId);
-        //     dispatch(
-        //       updateId({
-        //             user_id: userID,
-        //         })
-        //     )
-        // })
-        
-        //.then(console.log("first name:",first_name))
         .catch((error) => {
            console.log('user not added');
            console.log("first name: ",first_name.first_name);

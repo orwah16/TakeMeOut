@@ -1,8 +1,12 @@
 import {Button,TextInput} from 'react-native'
-import { useDispatch } from 'react-redux';
-import { logout,getInterest } from '../../redux/reducers/user';
+import { useDispatch,useSelector } from 'react-redux';
+import { logout,updateInterest } from '../../redux/reducers/user';
 import data from './fakeData';
 import React, {useState } from 'react';
+import { addUserInterest } from '../../API';
+//import user from '../../redux/reducers/user';
+
+
 import {
   Animated,
   Image,
@@ -97,6 +101,9 @@ const styles = StyleSheet.create({
 })
 export default function Profile () {
   const dispatch = useDispatch();
+  const user = useSelector((state)=>state.user);
+  console.log("user selector test (user_id): ",user);
+
   const[interest,setInterest]=useState([]);
 
     const [tabState,setTabs] = useState({
@@ -112,15 +119,17 @@ export default function Profile () {
   //   setInterest({
   //     interest: [...interest, newInterest]//or use concat to add interest
   // })
-  const addInterest = (newInterest) => {
+  const addInterest = () => {
    // setInterest([...interest, newInterest]);
-   console.log("new interest: ",newInterest);
+   console.log("new interest: ",interest.interest);
       //var interest=newInterest.reverse()[0];
       dispatch(
-          getInterest({
-            interest: interest,
+          updateInterest({
+            interest: interest.interest,
           })
-      )//.then(addUserInterest(newInterest))
+      )
+      console.log('user id profile: ',user.value.user_id.user_id)
+      addUserInterest(user.value.user_id.user_id,interest.interest);
     //   .catch((error) => {
     //     console.log(error.message);
     //  });
@@ -193,7 +202,7 @@ export default function Profile () {
           return (        <View>
             <TextInput
                 placeholder="Write an Interest of yours"
-                onChangeText={(newInterest) => setInterest([...interest, newInterest])}
+                onChangeText={(interest) => setInterest({interest})}
             />
             <Button
                 onPress={()=> addInterest()}

@@ -34,16 +34,16 @@ export const addUser = async (first_name,last_name,email) => {
 }
 
 
-export const addUserInterest = async (email,interest_name) => {
+export const addUserInterest = async (user_id,interest_name) => {
     try {
         console.log("newInterest in api: ",interest_name);
-        console.log("email: ",email)
-        const userID = await apiClient.get('/users/:email',[email]);
-        console.log("userID: ",userID);
+        console.log("user id in api: ",user_id)
+        //const userID = await apiClient.get('/users/:email',[email]);
         const interestID = await apiClient.post('/interests/',[interest_name,user_id]);
         // console.log("successful result in api add user interest: ",res);
     } catch (error) {
         console.log('Error while adding users interest: ',error.message)
     }
 }
+
 
