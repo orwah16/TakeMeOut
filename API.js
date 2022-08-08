@@ -1,7 +1,7 @@
 import apiClient from './client';
-//import user from './redux/reducers/user';
-//import user from './Index';
-//const user = useSelector(selectUser);
+import { useDispatch,useSelector } from 'react-redux';
+
+
 
 export const getUsers = async () => {
     try {
@@ -47,3 +47,18 @@ export const addUserInterest = async (user_id,interest_name) => {
 }
 
 
+export const getUserInterests = async (user_id) => {
+    try {
+        console.log("user id in api getUserInterests: ",user_id)
+        const interests = await apiClient.get('/interests/'+user_id);
+        console.log("successful result in api get user interests: ",interests.data);
+        var interestsArray=[];
+        for(var interest in interests.data){
+            console.log("name: ",interest);
+            [...interestsArray,interest.interest_name];
+        }
+        return interestsArray;
+    } catch (error) {
+        console.log('Error while adding users interest: ',error.message)
+    }
+}

@@ -13,10 +13,9 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
-import { login, logout, selectUser,updateId } from './redux/reducers/user';
-import {getUserByEmail} from './API';
-import rootReducer from './redux/reducers'
-import thunk from 'redux-thunk'
+import { login, logout, selectUser,updateId,updateInterest } from './redux/reducers/user';
+import {getUserByEmail,getUserInterests} from './API';
+
 //import firebaseConfig from './App'
 
 
@@ -38,10 +37,11 @@ if(firebase.apps.length === 0){
   
 function Index(){
     const user = useSelector(selectUser);
+    console.log("      USER    =>     ",user);
     const dispatch = useDispatch();
     const Stack = createStackNavigator();
-    var userID; 
-    useEffect(() => {
+    var userID=0; 
+    useEffect((userID) => {
       firebase.auth().onAuthStateChanged((userAuth) => {
         console.log('userAuth=',userAuth);
         console.log('user=',user);
@@ -51,14 +51,26 @@ function Index(){
               email: userAuth.email,
             })
           );
-          console.log('Index => email=',userAuth.email); 
+          //console.log('Index => email=',userAuth.email); 
           getUserByEmail(userAuth.email).then((response) => {
+            userID=response.data;
             console.log('response: ',response.data);
+            console.log('response ID: ',userID);
             dispatch(
               updateId({
                 user_id: response.data,
-            }))
-          })
+          }))
+          return userID;
+          }).then(userID=>
+            getUserInterests(userID).then((response)=>{
+              console.log('user interests response: ',response);
+              dispatch(
+                updateInterest({
+                  interest: response.data,
+              }))
+            })
+          )
+          console.log("user id to be sent to getuserInterest: ",user);
           console.log('Index => userID=',userID);  
           console.log('user after dispatch=',user);
         }else{
