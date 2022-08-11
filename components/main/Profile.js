@@ -1,13 +1,14 @@
-import {Button,TextInput} from 'react-native'
 import { useDispatch,useSelector } from 'react-redux';
 import { logout,updateInterest } from '../../redux/reducers/user';
 import data from './fakeData';
 import React, {useState } from 'react';
 import { addUserInterest } from '../../API';
-//import user from '../../redux/reducers/user';
-
+import Tags from "react-native-tags";
 
 import {
+  Button,
+  TextInput,
+  Dimensions,
   Animated,
   Image,
   Platform,
@@ -104,35 +105,38 @@ export default function Profile () {
   const user = useSelector((state)=>state.user);
   console.log("user selector test (user_id): ",user);
 
-  const[interest,setInterest]=useState([]);
+  const[interest,setInterest]=useState('');
+
+  // const updateTagState = (user) => {
+  //   setInterest({
+  //     tagsArray: user.interests[0]
+  //   })
+  // }
 
     const [tabState,setTabs] = useState({
       tabs: {
         index: 0,
         routes: [
-          { key: '1', title: 'interests', count: 0 },
+          { key: '1', title: 'interests', count: user.intersts[0].length },
           { key: '2', title: 'activities', count: 0 },
-          { key: '3', title: 'friends', count: 5 },
+          { key: '3', title: 'friends', count: 0 },
         ],
       },
     });
-  //   setInterest({
-  //     interest: [...interest, newInterest]//or use concat to add interest
-  // })
-  const addInterest = () => {
-   // setInterest([...interest, newInterest]);
-   console.log("new interest: ",interest.interest);
-      //var interest=newInterest.reverse()[0];
+  
+
+  const addInterest = (tag) => {
+   console.log("new interest: ",tag);
       dispatch(
           updateInterest({
-            interest: interest.interest,
+            interest: tag,
           })
       )
       console.log('user id profile: ',user.value.user_id.user_id)
-      addUserInterest(user.value.user_id.user_id,interest.interest);
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //  });
+      addUserInterest(user.value.user_id.user_id,interest.interest)
+      .catch((error) => {
+        console.log(error.message);
+     });
   }
 
 
@@ -194,20 +198,43 @@ export default function Profile () {
       )
     }
   
+    const tagsHandler = (tags)=>{
+      
+      let array =Object.values(tags);
+      console.log("array: ",tags);
+      let tag = array[array.length-1];
+      console.log("tag: ",tag);
+      setInterest(tag);
+      addInterest(tag);
+    }
     const renderScene = ({ route: { key } }) => {
       //const { posts } = this.props
       console.log("rendering scene");
       switch (key) {
         case '1':
-          return (        <View>
+          return (        
+          <View>
             <TextInput
                 placeholder="Write an Interest of yours"
                 onChangeText={(interest) => setInterest({interest})}
             />
             <Button
-                onPress={()=> addInterest()}
+                onPress={()=> addInterest(interest.interest)}
                 title="Add"
             />
+        <Tags
+          initialText=""
+          initialTags={user.intersts[0]}
+          onChangeTags={(tags) => tagsHandler(tags)}
+          onTagPress={(index, tagLabel, event) =>
+            console.log(index, tagLabel, event)
+          }
+          inputStyle={{
+            backgroundColor: "white",
+            border: "2px solid #717171",
+            borderRadius: 10
+          }}
+        />
         </View>) //interests
         case '2':
           return <VerticalList data={data} /> //activities(posts)

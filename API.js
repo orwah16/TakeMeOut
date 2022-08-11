@@ -52,12 +52,7 @@ export const getUserInterests = async (user_id) => {
         console.log("user id in api getUserInterests: ",user_id)
         const interests = await apiClient.get('/interests/'+user_id);
         console.log("successful result in api get user interests: ",interests.data);
-        var interestsArray=[];
-        for(var interest in interests.data){
-            console.log("name: ",interest);
-            [...interestsArray,interest.interest_name];
-        }
-        return interestsArray;
+        return interests.data;
     } catch (error) {
         console.log('Error while adding users interest: ',error.message)
     }

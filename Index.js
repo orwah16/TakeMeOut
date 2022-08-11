@@ -66,7 +66,7 @@ function Index(){
               console.log('user interests response: ',response);
               dispatch(
                 updateInterest({
-                  interest: response.data,
+                  interest: response,
               }))
             })
           )
