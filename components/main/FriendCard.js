@@ -3,15 +3,15 @@ import React from 'react';
 import Title from './Title'
 import Subtitle from './Subtitle'
 
-const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
-    console.log("item inside SearchCard: ",item);
-    const{thumbnail,title,desc}= item;
+const FriendCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
+    console.log("item inside FriendCard: ",item);
+    const{first_name,last_name}= item;
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={[styles.container,style]}>
                 <Image source={require('../../assets/profilepic.png')} style={[styles.image,imageStyle]}/>
                 <View style={styles.contentContainer}>
-                <Title>{title}</Title>
+                <Title>{first_name +' '+ last_name}</Title>
                 <Subtitle>{desc}</Subtitle>
                 </View>
             </View>
@@ -19,7 +19,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     )
 }
 
-export default SearchCard
+export default FriendCard
 
 const styles = StyleSheet.create({
     container:{

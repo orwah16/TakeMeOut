@@ -8,35 +8,13 @@ import {login,updateId} from '../../redux/reducers/user';
 import {getUserByEmail} from '../../API';
 
 function Login() {
-    const dispatch = useDispatch();
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('');
     const loginToApp = (event) => {
-        //console.log(userAuth.user.email);
         firebase.auth().signInWithEmailAndPassword(email.email, password.password)
         .then((userAuth) => {
-            //update profile  updateProfile(userAuth.user, {  .... })
             console.log("dispatching login");
-
-            // dispatch(
-            //     login({
-            //       email: userAuth.user.email,
-            //       //user_id: userAuth.user.uid,
-            //       name:userAuth.user.name,
-            //     })
-            //   )
           })
-        //   .then(()=>{
-        //       console.log("geting id by email");
-        //       var userID;
-        //       userID=getUserByEmail(email.email);
-        //       console.log("Login=>userID for getUserByEmail: ",userID);
-        //       dispatch(
-        //         updateId({
-        //               user_id: userID,
-        //           })
-        //       )
-        //   })
           .catch((error) => {
             console.log(error);
             console.log('user not updated');

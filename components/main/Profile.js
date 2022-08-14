@@ -2,7 +2,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { logout,updateInterest } from '../../redux/reducers/user';
 import data from './fakeData';
 import React, {useState } from 'react';
-import { addUserInterest } from '../../API';
+import { addUserInterest, getFriends } from '../../API';
 import Tags from "react-native-tags";
 
 import {
@@ -28,6 +28,7 @@ import PropTypes from 'prop-types';
 import Posts from './Posts';
 import VerticalList from './VerticalList';
 import interests from './Interests';
+import Friends from './Friends';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -104,7 +105,7 @@ export default function Profile () {
   const dispatch = useDispatch();
   const user = useSelector((state)=>state.user);
   console.log("user selector test (user_id): ",user);
-
+  const[friends,setFriends]=useState([]);
   const[interest,setInterest]=useState('');
 
   // const updateTagState = (user) => {
@@ -207,21 +208,35 @@ export default function Profile () {
       setInterest(tag);
       addInterest(tag);
     }
+
+  //   friendsHandler = async (user_id)=>{
+  //    await getFriends(user.value.user_id.user_id).then((result)=>{
+  //     let friends = Object.values(result);
+  //     console.log("friendsHandler array: ",friends);
+  //     return <Friends data={friends}/>;
+  //    })
+  //    .catch((error)=>{
+  //     console.log(error.message);
+  //     return null;
+  //    })
+  //   return null;
+  //  }
+
     const renderScene = ({ route: { key } }) => {
       //const { posts } = this.props
       console.log("rendering scene");
       switch (key) {
         case '1':
           return (        
-          <View>
-            <TextInput
-                placeholder="Write an Interest of yours"
-                onChangeText={(interest) => setInterest({interest})}
-            />
-            <Button
-                onPress={()=> addInterest(interest.interest)}
-                title="Add"
-            />
+           <View>
+           {/*  <TextInput
+                 placeholder="Write an Interest of yours"
+                 onChangeText={(interest) => setInterest({interest})}
+             />
+             <Button
+                 onPress={()=> addInterest(interest.interest)}
+                 title="Add"
+            /> */}
         <Tags
           initialText=""
           initialTags={user.intersts[0]}
@@ -237,14 +252,16 @@ export default function Profile () {
         />
         </View>) //interests
         case '2':
-          return <VerticalList data={data} /> //activities(posts)
-        case '3':
-          return <VerticalList data={data} /> //friends
+        //   return <VerticalList data={data} /> //activities(posts)
+        // case '3':
+          //return <Friends /> //friends
+          return <Friends user_id={user.value.user_id.user_id}/>
         default:
           return <View />
       }
     }
 
+//getFriends(user.value.user_id.user_id)
 
   
     const renderContactHeader = () => {

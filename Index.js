@@ -13,8 +13,8 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
-import { login, logout, selectUser,updateId,updateInterest } from './redux/reducers/user';
-import {getUserByEmail,getUserInterests} from './API';
+import { login, logout, selectUser,updateId,updateInterest,updateFriend,loadFriends } from './redux/reducers/user';
+import {getUserByEmail,getUserInterests,getFriends} from './API';
 
 //import firebaseConfig from './App'
 
@@ -41,6 +41,7 @@ function Index(){
     const dispatch = useDispatch();
     const Stack = createStackNavigator();
     var userID=0; 
+    
     useEffect((userID) => {
       firebase.auth().onAuthStateChanged((userAuth) => {
         console.log('userAuth=',userAuth);
@@ -67,6 +68,15 @@ function Index(){
               dispatch(
                 updateInterest({
                   interest: response,
+              }))
+              return userID;
+            })
+          ).then(userID=>
+            getFriends(userID).then((response)=>{
+              console.log('user friends response: ',response);
+              dispatch(
+                loadFriends({
+                  friend: response,
               }))
             })
           )

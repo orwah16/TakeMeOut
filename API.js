@@ -57,3 +57,14 @@ export const getUserInterests = async (user_id) => {
         console.log('Error while adding users interest: ',error.message)
     }
 }
+
+export const getFriends = async (user_id) => {
+    try{
+        console.log("user id in api getFriends: ",user_id)
+        const friends = await apiClient.get('/users/friends/'+user_id);
+        console.log("successful result in api get user friends: ",friends.data);
+        return friends.data;
+    }catch(error){
+        console.log('Error while getting friends ',error.message);
+    }
+}
