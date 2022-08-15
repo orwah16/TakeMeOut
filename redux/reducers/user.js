@@ -27,17 +27,6 @@ export const user = createSlice({
         loadFriends: (state,action)=>{
             try{
             console.log("action payload updateFriend: ",action.payload.friend);
-            let Array=[];
-            let fucker;
-            let friends=Object.values(action.payload.friend);
-            let length=Object.values(action.payload.friend).length;
-            console.log("number of friends: ",length);
-            for(let i=0;i<length;i++){
-                fucker=friends[i];
-                console.log("new friends in updateFriend: ",fucker);
-                Array.push(fucker);
-            }
-            console.log("friends added to state: ",Array);
             state.friends=[...state.friends, action.payload.friend];
         }catch(error){
             console.log("update friend error message: ",error.message);
@@ -48,3 +37,18 @@ export const user = createSlice({
 export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends} = user.actions
 export const selectUser = (state) => state.user.value;//changed to value since that is what changes
 export default user.reducer;
+
+
+
+            // let Array=[];
+            // let fucker;
+            // let friends=Object.values(action.payload.friend);
+            // console.log("friends in user before looping: ",friends);
+            // let length=Object.values(action.payload.friend).length;
+            // console.log("number of friends: ",length);
+            // for(let i=0;i<length;i++){
+            //     fucker=friends[i];
+            //     console.log("new friend in updateFriend: ",fucker);
+            //     Array.push(fucker);
+            // }
+            // console.log("friends added to state: ",Array);

@@ -2,7 +2,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { logout,updateInterest } from '../../redux/reducers/user';
 import data from './fakeData';
 import React, {useState } from 'react';
-import { addUserInterest, getFriends } from '../../API';
+import { addUserInterest} from '../../API';
 import Tags from "react-native-tags";
 
 import {
@@ -120,7 +120,7 @@ export default function Profile () {
         routes: [
           { key: '1', title: 'interests', count: user.intersts[0].length },
           { key: '2', title: 'activities', count: 0 },
-          { key: '3', title: 'friends', count: 0 },
+          { key: '3', title: 'friends', count: user.friends[0].length },
         ],
       },
     });
@@ -252,9 +252,8 @@ export default function Profile () {
         />
         </View>) //interests
         case '2':
-        //   return <VerticalList data={data} /> //activities(posts)
-        // case '3':
-          //return <Friends /> //friends
+          return <VerticalList data={data} /> //activities(posts)
+        case '3':
           return <Friends user_id={user.value.user_id.user_id}/>
         default:
           return <View />
