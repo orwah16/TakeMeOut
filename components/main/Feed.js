@@ -6,8 +6,6 @@ import ScreenTop from './ScreenTop'
 import data from './fakeData'
 import VerticalList from './VerticalList'
 import apiClient from '../../client';
-import { logout } from '../../redux/reducers/user'
-import { store } from '../../App'
 import { useDispatch } from 'react-redux';
 
 

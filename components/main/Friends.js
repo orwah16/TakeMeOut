@@ -12,6 +12,7 @@ const Friends =  ({user_id}) => {
     const user = useSelector((state)=>state.user);
     var friends=user.friends[0];
     console.log('friends from store: ',friends);
+    const navigation = useNavigation();
 
     // try{
     // const navigation = useNavigation();
