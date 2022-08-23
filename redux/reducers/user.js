@@ -26,15 +26,19 @@ export const user = createSlice({
         },
         loadFriends: (state,action)=>{
             try{
-            console.log("action payload updateFriend: ",action.payload.friend);
-            state.friends=[...state.friends, action.payload.friend];
-        }catch(error){
-            console.log("update friend error message: ",error.message);
-        }
-        }  
+                console.log("action payload updateFriend: ",action.payload.friend);
+                state.friends=[...state.friends, action.payload.friend];
+            }catch(error){
+                console.log("update friend error message: ",error.message);
+            }
+        },
+        loadImage: (state,action)=>{
+            console.log("action payload updateFriend: ",action.payload.image);
+            state.value = action.payload;
+        } 
     },
 });
-export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends} = user.actions
+export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends,loadImage} = user.actions
 export const selectUser = (state) => state.user.value;//changed to value since that is what changes
 export default user.reducer;
 

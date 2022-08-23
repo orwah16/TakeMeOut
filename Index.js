@@ -13,6 +13,7 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
+import CreatePostScreen from './components/main/CreatePost'
 import { login, logout, selectUser,updateId,updateInterest,updateFriend,loadFriends } from './redux/reducers/user';
 import {getUserByEmail,getUserInterests,getFriends} from './API';
 
@@ -109,8 +110,9 @@ function Index(){
           <NavigationContainer>
             <Stack.Navigator initialRoutName="Main">
               <Stack.Screen name="Main" component={MainScreen} options={{headerShown:false}}></Stack.Screen>
-              {/* <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}></Stack.Screen> */}
+              <Stack.Screen name="Add" component={AddScreen} ></Stack.Screen> 
               <Stack.Screen name="Save" component={SaveScreen}></Stack.Screen>
+              <Stack.Screen name="CreatPost" component={CreatePostScreen}></Stack.Screen>
             </Stack.Navigator>  
           </NavigationContainer>
       );

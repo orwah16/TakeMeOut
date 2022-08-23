@@ -11,6 +11,7 @@ import userReducer from '../App';
 import FeedScreen from './main/Feed';
 import AddScreen from './main/Add';
 import ProfileScreen from './main/Profile';
+import CreatePost from './main/CreatePost';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -21,13 +22,13 @@ function Main (){
     });
         return (
             <Tab.Navigator initialRoutName="Feed">
-                {/* <Tab.Screen name="Add" component={AddScreen} 
+                 <Tab.Screen name="New Activity" component={CreatePost} 
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="plus-box" color={color} size={26} />
                         ),
                     }} 
-                />               */}
+                />               
                 <Tab.Screen name="Feed" component={FeedScreen} 
                     options={{
                         tabBarIcon: ({ color, size }) => (
