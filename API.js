@@ -71,12 +71,28 @@ export const getFriends = async (user_id) => {
 
 export const addPost = async (props) => {
     try {
-        console.log("newInterest in api: ",props);
-        
+        console.log("new post in api: ",props.props);
+        const user_id=props.props.user_id;
+        const interest=props.props.interest;
+        const location=props.props.location;
+        const title=props.props.title;
+        const desc=props.props.desc;
+
+        console.log("poster user id: ",user_id);
+        const postID = await apiClient.post('/users/post/',[user_id,interest,location,title,desc]);
+        console.log("successful result in api add post: ",postID.data);
+        return postID.data;
+    } catch (error) {
+        console.log('Error while adding post: ',error.message)
+    }
+}
+export const addPostImage = async (post_id,imageURL) => {
+    try {
+        console.log("new post image in api: ",imageURL);
         //const userID = await apiClient.get('/users/:email',[email]);
-        const interestID = await apiClient.post('/users/user_id',[interest_name,user_id]);
+        const interestID = await apiClient.put('/users/post/update/',[imageURL,post_id]);
         // console.log("successful result in api add user interest: ",res);
     } catch (error) {
-        console.log('Error while adding users interest: ',error.message)
+        console.log('Error while adding image to post: ',error.message)
     }
 }

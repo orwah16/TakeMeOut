@@ -2,15 +2,17 @@
  import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function Add({ navigation }) {
+export default function Add({route,navigation}) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-
+    console.log("params recieved in add: ",route.params);
+    const props=route.params;
   useEffect(() => {
     (async () => {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
@@ -73,7 +75,7 @@ export default function Add({ navigation }) {
       </Button>
       <Button title="Take Picture" onPress={() => takePicture()} />
       <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
-      <Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
+      <Button title="Save" onPress={() => navigation.navigate('Save', {props,image})} />
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
     </View>
   );
