@@ -96,3 +96,14 @@ export const addPostImage = async (post_id,imageURL) => {
         console.log('Error while adding image to post: ',error.message)
     }
 }
+
+export const getFriendsPosts = async (user_id) => {
+    try{
+        console.log("user id in api getFriendsPosts: ",user_id)
+        const friendsPosts = await apiClient.get('/users/friends/posts/'+user_id);
+        console.log("successful result in api get user friends: ",friendsPosts.data);
+        return friendsPosts.data;
+    }catch(error){
+        console.log('Error while getting friends ',error.message);
+    }
+}

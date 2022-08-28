@@ -27,7 +27,7 @@ const Friends =  ({user_id}) => {
         <View>
             <TextInput
                 placeholder="Enter Friend's email to add him"
-                onChangeText={(interest) => setFriend({interest})}
+                onChangeText={(friend) => setFriend({friend})}
             />
             <Button
                 onPress={()=> loadFriends(friend.friend)}

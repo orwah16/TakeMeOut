@@ -7,16 +7,6 @@ import firebase from 'firebase';
 import 'firebase/storage';
 
 export default function Save({route,navigation}) {
-    //console.log(props.route.params.image)//can find this path in the object in the console
-    // const [interest, setInterest] = useState("");
-    // const [location, setLocation] = useState("");
-    // const [title, setTitle] = useState("");
-    // const [desc, setDesc] = useState("");
-    // console.log("Save props: ",props.route.params);
-    // setInterest(props.route.params.interest);
-    // setLocation(props.route.params.location);
-    // setTitle(props.route.params.title);
-    // setDesc(props.route.params.desc);
     var post_id;
     const SavePost = async () => {
         console.log("props to SavePost: ",route);
@@ -55,21 +45,6 @@ export default function Save({route,navigation}) {
     }
 
 
-    // const savePostData = (downloadURL) => {
-    //     firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid)
-    //     .collection("userPosts")
-    //     .add({
-    //         downloadURL,
-    //         caption,
-    //         creation: firebase.firestore().fieldValue.serverTimstamp()
-    //     }).then((function(){
-    //         navigation.popToTop()//poptottop goes to the first rout (Main)
-    //     }))
-    // }
-    // const savePostData = (downloadURL) => {
-    //     console.log("post image url: ",downloadURL);
-
-    // }
 
     return (
         <View style={{flex: 1}}>

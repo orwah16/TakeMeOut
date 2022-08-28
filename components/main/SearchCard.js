@@ -7,23 +7,23 @@ import { Text } from 'react-native'
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
     console.log("item inside SearchCard: ",item);
-    const{thumbnail,title,desc}= item;
+    const{interest,location,title,desc,date,image}= item;
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View>
                 <Card>
                     <Card_header_img >
-                    <Image source={require('../../assets/profilepic.png')} style={[styles.image,imageStyle]} />
+                    <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
                         
                     </Card_header_img>
                     <Tag>
-                    <Text style={[styles.tag]}>{"Basketball"}</Text>
+                    <Text style={[styles.tag]}>{interest}</Text>
                     </Tag>
                     <Row>
                         <Location>
-                        <Text> {"location: "} </Text>
+                        <Text> {"location: "+ location} </Text>
                         </Location>
-                        <Text style={[styles.text]}>{"testing ........."}</Text>
+                        <Text style={[styles.text]}>{"date: "+date}</Text>
                     </Row>
                     <Card_body>
                 <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
