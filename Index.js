@@ -102,7 +102,7 @@ function Index(){
             </Stack.Navigator>
           </NavigationContainer>
         );
-      }
+      }else{
       console.log('user inside feed =',user);
 
       return(
@@ -115,6 +115,7 @@ function Index(){
               <Stack.Screen name="CreatPost" component={CreatePostScreen}></Stack.Screen>
             </Stack.Navigator>  
           </NavigationContainer>
-      );
+     );
+      }
 }
 export default Index;

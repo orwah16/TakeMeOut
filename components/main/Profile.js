@@ -251,8 +251,8 @@ export default function Profile () {
           }}
         />
         </View>) //interests
-        //case '2':
-          //return <VerticalList data={data} /> //activities(posts)
+        case '2':
+          return <VerticalList data={data} /> //activities(posts)
         case '3':
           return <Friends user_id={user.value.user_id.user_id}/>
         default:

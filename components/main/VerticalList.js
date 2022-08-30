@@ -4,14 +4,15 @@ import SearchCard from './SearchCard'
 import {useNavigation} from '@react-navigation/native';
 import Post from './Post'
 const VerticalList = ({data}) => {
-    console.log("items in vertical list: ",data);
+    const posts=data[0];
+    console.log("items in vertical list: ",data[0]);
     const navigation = useNavigation();
     return (
         <View>
             <FlatList nestedScrollEnabled={true}
-            data={data} keyExtractor={item => item.id}
+            data={posts} keyExtractor={item => item.post_id}
             showsVerticalScrollIndicator={false}
-            renderItem={({item}) => <SearchCard item={item} onPress={()=> navigation.navigate('Post',{item})}/>}/>
+            renderItem={({item}) => <SearchCard item={item} />}/>
         </View>
     )
 }
@@ -19,3 +20,8 @@ const VerticalList = ({data}) => {
 export default VerticalList
 
 const styles = StyleSheet.create({})
+
+
+
+
+//onPress={()=> navigation.navigate('Post',{item})}

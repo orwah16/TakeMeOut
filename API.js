@@ -104,6 +104,17 @@ export const getFriendsPosts = async (user_id) => {
         console.log("successful result in api get user friends: ",friendsPosts.data);
         return friendsPosts.data;
     }catch(error){
-        console.log('Error while getting friends ',error.message);
+        console.log('Error while getting friends posts ',error.message);
+    }
+}
+
+export const getInterestingPosts = async (user_id) => {
+    try{
+        console.log("user id in api getInterestingPosts: ",user_id)
+        const interestingPosts = await apiClient.get('/interests/posts/'+user_id);
+        console.log("successful result in api get user interesting posts: ",interestingPosts.data);
+        return interestingPosts.data;
+    }catch(error){
+        console.log('Error while getting interesting posts ',error.message);
     }
 }
