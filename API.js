@@ -118,3 +118,14 @@ export const getInterestingPosts = async (user_id) => {
         console.log('Error while getting interesting posts ',error.message);
     }
 }
+
+export const getTaggedInPosts = async (user_id) => {
+    try{
+        console.log("user id in api getTaggedInPosts: ",user_id)
+        const taggedInPosts = await apiClient.get('/users/post/'+user_id);
+        console.log("successful result in api get user tagged in posts: ",taggedInPosts.data);
+        return taggedInPosts.data;
+    }catch(error){
+        console.log('Error while getting tagged in posts ',error.message);
+    }
+}

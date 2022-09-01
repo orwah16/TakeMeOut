@@ -4,6 +4,7 @@ import data from './fakeData';
 import React, {useState } from 'react';
 import { addUserInterest} from '../../API';
 import Tags from "react-native-tags";
+import Activities from './Activities';
 
 import {
   Button,
@@ -252,7 +253,7 @@ export default function Profile () {
         />
         </View>) //interests
         case '2':
-          return <VerticalList data={data} /> //activities(posts)
+          return <Activities /> //activities(posts)
         case '3':
           return <Friends user_id={user.value.user_id.user_id}/>
         default:
