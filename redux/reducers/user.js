@@ -39,10 +39,14 @@ export const user = createSlice({
         loadFeedValue: (state,action)=>{
             console.log("action payload updateFriend: ",action.payload.feed);
             state.feed = action.payload;
-        } 
+        },
+        numberOfTaggedPosts: (state,action)=>{
+            console.log("action payload updateFriend: ",action.payload.numberOfTaggedPosts);
+            state.numberOfTaggedPosts = action.payload;
+        }  
     },
 });
-export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends,loadImage,loadFeedValue} = user.actions
+export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends,loadImage,loadFeedValue,numberOfTaggedPosts} = user.actions
 export const selectUser = (state) => state.user.value;//changed to value since that is what changes
 export default user.reducer;
 

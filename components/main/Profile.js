@@ -120,7 +120,7 @@ export default function Profile () {
         index: 0,
         routes: [
           { key: '1', title: 'interests', count: user.intersts[0].length },
-          { key: '2', title: 'activities', count: 0 },
+          { key: '2', title: 'activities', count: user.numberOfTaggedPosts },
           { key: '3', title: 'friends', count: user.friends[0].length },
         ],
       },

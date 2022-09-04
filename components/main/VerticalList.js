@@ -4,8 +4,8 @@ import SearchCard from './SearchCard'
 import {useNavigation} from '@react-navigation/native';
 import Post from './Post'
 const VerticalList = ({data}) => {
-    const posts=data[0];
-    console.log("items in vertical list: ",data[0]);
+    const posts=data;
+    console.log("items in vertical list: ",data);
     const navigation = useNavigation();
     return (
         <View>

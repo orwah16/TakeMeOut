@@ -23,7 +23,7 @@ export default function Feed() {
       {label: 'Friends Posts', value: 'friends'},
       {label: 'Interested in', value: 'interests'}
     ]);
-    useEffect(() => {
+    useEffect(() => {//for drop 
         const getPosts = async() => {
             try{
                 console.log("getting posts to Feed: ",value);
@@ -34,15 +34,38 @@ export default function Feed() {
                     newData = await getInterestingPosts(user.value.user_id.user_id);
                 }
                 console.log("Feed get Data= ",newData);
-                setPosts([newData]);
+                setPosts(newData);
+                var array = [];
+                console.log("check: ","basketball".search("/basketball/"));
+                if(searchWord!=""){//search bar
+                    console.log("posts in search: ",newData);
+                    newData.forEach((post)=>{
+                        console.log("searchWord",searchWord.searchWord);
+                        console.log("current post: ",post);
+                        console.log("interest search result: ",post.post_interest.search(searchWord.searchWord));
+                        if((post.post_title.search(searchWord.searchWord) != -1)
+                        ||(post.post_location.search(searchWord.searchWord) != -1)
+                        ||(post.post_interest.search(searchWord.searchWord) != -1)
+                        ||(post.post_location.search(searchWord.searchWord) != -1)
+                        ||(post.text.search(searchWord.searchWord) != -1))
+                        {
+                            array.push(post);
+                            console.log(array);
+                        }
+                    })
+                    setPosts(array);
+                } 
+
                 console.log("posts: ",posts);
+  
             } catch (error) {
                 console.log('Error while getting friends posts.',error.message)
             }
         }
         getPosts();
-    },[value]); //to search for the value in the drop
-    
+    },[value,searchWord]); 
+
+  
     //const tag = data.filter(item = > item.categroy === 'tag') for filtering
     return (
         <React.Fragment>
@@ -58,7 +81,8 @@ export default function Feed() {
                         setItems={setItems}
                     />
                 </View>
-                <TextInput style={styles.searchInput} placeholder='Search here..'/>
+                <TextInput style={styles.searchInput} placeholder='Search here..'                     
+                onChangeText={(searchWord) => setSearchWord({searchWord})}/>
             </View>
             <VerticalList data={posts}/>
             </ScreenTop>
