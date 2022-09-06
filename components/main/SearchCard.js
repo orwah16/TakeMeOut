@@ -7,13 +7,18 @@ import styled from 'styled-components/native';
 import { Text } from 'react-native'
 import { useSelector} from 'react-redux';
 import {getTaggedInPostIDs,tagPost,deleteTagFrom} from '../../API'
+import { MiddlewareArray } from '@reduxjs/toolkit';
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
   const user = useSelector((state)=>state.user);
   const [tagged, setTag] = useState(false);
-  const [participants, setParticipants] = useState();
+  const [participants, setParticipants] = useState(1);
     console.log("item inside SearchCard: ",item);
     const{post_id,user_id,post_interest,post_location,post_title,text,post_date,image}= item;
+    const partsArray = post_date.split('T');
+    const date = partsArray[0];
+    const time = partsArray[1].split('.')[0];
+    console.log("time: "+time+" date: "+date);
     console.log("user_id in search card: "+ user_id);
    getTaggedInPostIDs(post_id).then((IDs)=>{
       console.log("ids in search card: ",IDs);
@@ -40,31 +45,31 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     }
     if(tagged){
       return (
-          <TouchableWithoutFeedback onPress={onPress}>
-            <Card>
-              <Card_header_img >
-                <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
-              </Card_header_img>
-              <Tag>
-                <Text style={[styles.tag]}>{post_interest}</Text>
-              </Tag>
-              <Row>
-                <Location>
-                  <Text> {"location: "+ post_location} </Text>
-                </Location>
-                <Text style={[styles.text]}>{"date: "+post_date}</Text>
-              </Row>
-              <Card_body>
-                <Row>
-                  <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
-                  <Text style={[styles.text]}>{"participants: " + participants}</Text>
-                  <AntDesign name='staro' style={{fontSize: 50}} onPress={() => manageTags()}/>
-                </Row>
-                <Title style={[styles.text]}>{post_title}</Title>
-                <Subtitle style={[styles.text]}>{text}</Subtitle>
-              </Card_body>
-            </Card>
-          </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={onPress}>
+        <Card>
+          <Card_header_img >
+            <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
+          </Card_header_img>
+          <Tag>
+            <Text style={[styles.tag]}>{post_interest}</Text>
+          </Tag>
+          <Row>
+            <Location>
+              <Text> {"location: "+ post_location} </Text>
+            </Location>
+            <Text style={[styles.text]}>{"time: "+time+"   date: "+date}</Text>
+          </Row>
+          <Card_body>
+            <Row style={{width: '100%'}}>
+              <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+              <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
+              <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
+            </Row>
+            <Title style={[styles.text]}>{post_title}</Title>
+            <Subtitle style={[styles.text]}>{text}</Subtitle>
+          </Card_body>
+        </Card>
+      </TouchableWithoutFeedback>
       )}else{
         return(
         <TouchableWithoutFeedback onPress={onPress}>
@@ -79,13 +84,13 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             <Location>
               <Text> {"location: "+ post_location} </Text>
             </Location>
-            <Text style={[styles.text]}>{"date: "+post_date}</Text>
+            <Text style={[styles.text]}>{"time: "+time+"   date: "+date}</Text>
           </Row>
           <Card_body>
             <Row style={{width: '100%'}}>
               <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
-              <Text style={[styles.text]}>{"number of Participants "+participants}</Text>
-              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold',flex: 2 }} onPress={() => manageTags()}/>
+              <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
+              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold',flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
             </Row>
             <Title style={[styles.text]}>{post_title}</Title>
             <Subtitle style={[styles.text]}>{text}</Subtitle>
@@ -105,12 +110,11 @@ const styles = StyleSheet.create({
 
     },
     image2:{
-        height: '20',
         aspectRatio: 1 / 1,
         borderRadius: '50%',
         margin: 5,
         padding: 5,
-        flex: 1,
+        flex: 0.5,
       
 
     },
@@ -122,7 +126,20 @@ const styles = StyleSheet.create({
         color: "blue",
     },
     text:{
-        flex: 2,
+      justifyContent:"center",
+        flex: 1,
+        fontSize: 15,
+        textAlign: "center",
+    },
+    number:{
+      justifyContent:"center",
+        flex: 1,
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: "center",
+        marginTop: 30,
+        paddingLeft: 50,
+        color: '#47bcd4',
     }
 
 });
@@ -191,5 +208,7 @@ const Tag = styled.View`
   justify-content: space-between;
 
 `;
+
+
 
 
