@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import { addUserInterest } from '../../API';
 
 export const user = createSlice({
     name:'user',
@@ -33,15 +32,15 @@ export const user = createSlice({
             }
         },
         loadImage: (state,action)=>{
-            console.log("action payload updateFriend: ",action.payload.image);
+            console.log("action payload updateImage: ",action.payload.image);
             state.value = action.payload;
         },
         loadFeedValue: (state,action)=>{
-            console.log("action payload updateFriend: ",action.payload.feed);
+            console.log("action payload updateFeed: ",action.payload.feed);
             state.feed = action.payload;
         },
         numberOfTaggedPosts: (state,action)=>{
-            console.log("action payload updateFriend: ",action.payload.numberOfTaggedPosts);
+            console.log("action payload number of tagged posts: ",action.payload.numberOfTaggedPosts);
             state.numberOfTaggedPosts = action.payload;
         }  
     },

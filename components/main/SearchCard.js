@@ -1,44 +1,93 @@
 import { Image, StyleSheet, View ,TouchableWithoutFeedback} from 'react-native'
-import React from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import React, {useState } from 'react';
 import Title from './Title'
 import Subtitle from './Subtitle'
 import styled from 'styled-components/native';
 import { Text } from 'react-native'
+import { useSelector} from 'react-redux';
+import {getTaggedInPostIDs,tagPost,deleteTagFrom} from '../../API'
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
+  const user = useSelector((state)=>state.user);
+  const [tagged, setTag] = useState(false);
+  //var IDs =[];
     console.log("item inside SearchCard: ",item);
-    const{post_interest,post_location,post_title,text,post_date,image}= item;
-    console.log("location: "+ post_location);
-    return (
-        <TouchableWithoutFeedback onPress={onPress}>
+    const{post_id,user_id,post_interest,post_location,post_title,text,post_date,image}= item;
+    console.log("user_id in search card: "+ user_id);
+   getTaggedInPostIDs(post_id).then((IDs)=>{
+      console.log("ids in search card: ",IDs)
+      IDs.forEach((post) =>{
+      if(post.user_id == user_id){
+          setTag(true);
+      } else {
+          setTag(false);
+    }})
+  });
 
-                <Card>
-                    <Card_header_img >
-                    <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
-                        
-                    </Card_header_img>
-                    <Tag>
-                    <Text style={[styles.tag]}>{post_interest}</Text>
-                    </Tag>
-                    <Row>
-                        <Location>
-                        <Text> {"location: "+ post_location} </Text>
-                        </Location>
-                        <Text style={[styles.text]}>{"date: "+post_date}</Text>
-                    </Row>
-                    <Card_body>
-                <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
-
-                   
+    const manageTags = (event) => {
+      console.log("managing tags in searchCard");
+      if (tagged==true){
+        setTag(false);
+        deleteTagFrom(user_id,post_id);
+      }else{
+        setTag(true);
+        tagPost(user_id,post_id);
+      }      
+    }
+    if(tagged){
+      return (
+          <TouchableWithoutFeedback onPress={onPress}>
+            <Card>
+              <Card_header_img >
+                <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
+              </Card_header_img>
+              <Tag>
+                <Text style={[styles.tag]}>{post_interest}</Text>
+              </Tag>
+              <Row>
+                <Location>
+                  <Text> {"location: "+ post_location} </Text>
+                </Location>
+                <Text style={[styles.text]}>{"date: "+post_date}</Text>
+              </Row>
+              <Card_body>
+                <Row>
+                  <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+                  <AntDesign name='staro' style={{fontSize: 50}} onPress={() => manageTags()}/>
+                </Row>
                 <Title style={[styles.text]}>{post_title}</Title>
                 <Subtitle style={[styles.text]}>{text}</Subtitle>
-
-                </Card_body>
-
-                </Card>
-
-        </TouchableWithoutFeedback>
-    )
+              </Card_body>
+            </Card>
+          </TouchableWithoutFeedback>
+      )}else{
+        return(
+        <TouchableWithoutFeedback onPress={onPress}>
+        <Card>
+          <Card_header_img >
+            <Image         source={{uri: image}} style={[styles.image,imageStyle]} />
+          </Card_header_img>
+          <Tag>
+            <Text style={[styles.tag]}>{post_interest}</Text>
+          </Tag>
+          <Row>
+            <Location>
+              <Text> {"location: "+ post_location} </Text>
+            </Location>
+            <Text style={[styles.text]}>{"date: "+post_date}</Text>
+          </Row>
+          <Card_body>
+            <Row>
+              <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold'}} onPress={() => manageTags()}/>
+            </Row>
+            <Title style={[styles.text]}>{post_title}</Title>
+            <Subtitle style={[styles.text]}>{text}</Subtitle>
+          </Card_body>
+        </Card>
+      </TouchableWithoutFeedback>
+      )}
 }
 
 export default SearchCard
@@ -129,16 +178,11 @@ const Tag = styled.View`
   flex: 1;
   `;
 
-const user = styled.View`
-  display: flex;
-  margin-top: auto;
-  `;
-
   const Row = styled.View`
   flex-direction: row;
   hight: fit-content;
   margin: 5px;
-    justify-content: space-between;
+  justify-content: space-between;
 
 `;
 

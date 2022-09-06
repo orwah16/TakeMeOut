@@ -16,8 +16,8 @@ export default function Activities() {
                 const newData = await getTaggedInPosts(user.value.user_id.user_id);
                 console.log("Activity get Data= ",newData);
                 setPosts(newData);
-                console.log("posts: ",posts);
-                numberOfTaggedPosts(posts.length());
+                console.log("posts in activities: ",posts);
+                numberOfTaggedPosts(newData.length());
             } catch (error) {
                 console.log('Error while getting tagged posts.',error.message)
             }

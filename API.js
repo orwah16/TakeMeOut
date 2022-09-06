@@ -1,6 +1,4 @@
 import apiClient from './client';
-import { useDispatch,useSelector } from 'react-redux';
-
 
 
 export const getUsers = async () => {
@@ -127,5 +125,36 @@ export const getTaggedInPosts = async (user_id) => {
         return taggedInPosts.data;
     }catch(error){
         console.log('Error while getting tagged in posts ',error.message);
+    }
+}
+
+export const getTaggedInPostIDs = async (post_id) => {
+    try{
+        console.log("user id in api getTaggedInPostIDs: ",post_id)
+        const taggedInPost = await apiClient.get('/users/post/ids/'+post_id);
+        console.log("successful result in api get users tagged in post: ",taggedInPost.data);
+        return taggedInPost.data;
+    }catch(error){
+        console.log('Error while getting users tagged in post ids: ',error.message);
+    }
+}
+
+export const tagPost = async (user_id,post_id) => {
+    try{
+        console.log("user id in api to tag post: ",user_id)
+        const result = await apiClient.post('/users/post/tag/',[user_id,post_id]);
+        console.log("successful result in api post tagged: ",result);
+    }catch(error){
+        console.log('Error while getting tagged in posts ids: ',error.message);
+    }
+}
+
+export const deleteTagFrom = async (user_id,post_id) => {
+    try{
+        console.log("user id in api to tag post: ",user_id)
+        const result = await apiClient.post('/users/post/delete/tag/',[user_id,post_id]);
+        console.log("successful result in api delete post tag: ",result);
+    }catch(error){
+        console.log('Error while deleting tag from post: ',error.message);
     }
 }

@@ -23,12 +23,12 @@ export default function Feed() {
       {label: 'Friends Posts', value: 'friends'},
       {label: 'Interested in', value: 'interests'}
     ]);
-    useEffect(() => {//for drop 
+    useEffect(() => {
         const getPosts = async() => {
             try{
                 console.log("getting posts to Feed: ",value);
-                var newData;
-                if (value == 'friends'){
+                var newData=[];
+                if (value == 'friends'){//for drop 
                     newData = await getFriendsPosts(user.value.user_id.user_id);
                 }else if (value == 'interests'){
                     newData = await getInterestingPosts(user.value.user_id.user_id);
@@ -36,7 +36,7 @@ export default function Feed() {
                 console.log("Feed get Data= ",newData);
                 setPosts(newData);
                 var array = [];
-                console.log("check: ","basketball".search("/basketball/"));
+                //console.log("check: ","basketball".search("/basketball/"));
                 if(searchWord!=""){//search bar
                     console.log("posts in search: ",newData);
                     newData.forEach((post)=>{
@@ -68,7 +68,6 @@ export default function Feed() {
   
     //const tag = data.filter(item = > item.categroy === 'tag') for filtering
     return (
-        <React.Fragment>
             <ScreenTop>
             <View style={styles.container}>
                 <View style={styles.drop}>
@@ -86,7 +85,6 @@ export default function Feed() {
             </View>
             <VerticalList data={posts}/>
             </ScreenTop>
-        </React.Fragment>
     )
 }
 
