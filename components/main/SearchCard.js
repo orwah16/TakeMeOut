@@ -11,12 +11,13 @@ import {getTaggedInPostIDs,tagPost,deleteTagFrom} from '../../API'
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
   const user = useSelector((state)=>state.user);
   const [tagged, setTag] = useState(false);
-  //var IDs =[];
+  const [participants, setParticipants] = useState();
     console.log("item inside SearchCard: ",item);
     const{post_id,user_id,post_interest,post_location,post_title,text,post_date,image}= item;
     console.log("user_id in search card: "+ user_id);
    getTaggedInPostIDs(post_id).then((IDs)=>{
-      console.log("ids in search card: ",IDs)
+      console.log("ids in search card: ",IDs);
+      setParticipants(IDs.length);
       IDs.forEach((post) =>{
       if(post.user_id == user_id){
           setTag(true);
@@ -29,9 +30,11 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
       console.log("managing tags in searchCard");
       if (tagged==true){
         setTag(false);
+        setParticipants(participants-1);
         deleteTagFrom(user_id,post_id);
       }else{
         setTag(true);
+        setParticipants(participants+1);
         tagPost(user_id,post_id);
       }      
     }
@@ -54,6 +57,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
               <Card_body>
                 <Row>
                   <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+                  <Text style={[styles.text]}>{"participants: " + participants}</Text>
                   <AntDesign name='staro' style={{fontSize: 50}} onPress={() => manageTags()}/>
                 </Row>
                 <Title style={[styles.text]}>{post_title}</Title>
@@ -78,9 +82,10 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             <Text style={[styles.text]}>{"date: "+post_date}</Text>
           </Row>
           <Card_body>
-            <Row>
+            <Row style={{width: '100%'}}>
               <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
-              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold'}} onPress={() => manageTags()}/>
+              <Text style={[styles.text]}>{"number of Participants "+participants}</Text>
+              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold',flex: 2 }} onPress={() => manageTags()}/>
             </Row>
             <Title style={[styles.text]}>{post_title}</Title>
             <Subtitle style={[styles.text]}>{text}</Subtitle>
@@ -100,11 +105,12 @@ const styles = StyleSheet.create({
 
     },
     image2:{
-        width: 100,
-        height: 100,
+        height: '20',
+        aspectRatio: 1 / 1,
         borderRadius: '50%',
         margin: 5,
         padding: 5,
+        flex: 1,
       
 
     },
@@ -116,7 +122,7 @@ const styles = StyleSheet.create({
         color: "blue",
     },
     text:{
-        flex: 1,
+        flex: 2,
     }
 
 });
