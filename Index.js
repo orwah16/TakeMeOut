@@ -14,6 +14,7 @@ import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
 import CreatePostScreen from './components/main/CreatePost'
+import NumbersScreen from './components/main/Numbers'
 import { login, logout, selectUser,updateId,updateInterest,updateFriend,loadFriends } from './redux/reducers/user';
 import {getUserByEmail,getUserInterests,getFriends} from './API';
 
@@ -113,6 +114,7 @@ function Index(){
               <Stack.Screen name="Add" component={AddScreen} ></Stack.Screen> 
               <Stack.Screen name="Save" component={SaveScreen}></Stack.Screen>
               <Stack.Screen name="CreatPost" component={CreatePostScreen}></Stack.Screen>
+              <Stack.Screen name="Numbers" component={NumbersScreen}></Stack.Screen>
             </Stack.Navigator>  
           </NavigationContainer>
      );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {View,StyleSheet,StatusBar, TextInput} from 'react-native'
+import {View,StyleSheet,ScrollView, TextInput} from 'react-native'
 import SearchBar  from './SearchBar'
 import SearchCard from './SearchCard'
 import ScreenTop from './ScreenTop'
@@ -68,7 +68,7 @@ export default function Feed() {
   
     //const tag = data.filter(item = > item.categroy === 'tag') for filtering
     return (
-            <ScreenTop>
+        <View style={styles.body}>
             <View style={styles.container}>
                 <View style={styles.drop}>
                     <DropDownPicker 
@@ -83,8 +83,10 @@ export default function Feed() {
                 <TextInput style={styles.searchInput} placeholder='Search here..'                     
                 onChangeText={(searchWord) => setSearchWord({searchWord})}/>
             </View>
-            <VerticalList data={posts}/>
-            </ScreenTop>
+            <View>
+            <VerticalList style={styles.list} data={posts}/>
+            </View>
+            </View>
     )
 }
 
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         flexDirection: 'row',
         justifyContent: "space-around",
-        
+        flex: 1,
 
     },
     searchInput: {
@@ -112,6 +114,14 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1
     },
-
+    body:{
+        marginTop: 30,
+        flexDirection: 'column',
+        paddingHorizontal: 15,
+        backgroundColor: '#f7f3f3',
+    },
+    list: {
+        flex: 5,
+    },
 
 })

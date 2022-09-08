@@ -158,3 +158,14 @@ export const deleteTagFrom = async (user_id,post_id) => {
         console.log('Error while deleting tag from post: ',error.message);
     }
 }
+
+export const getTaggedInPostNumbers = async (post_id) => {
+    try{
+        console.log("user id in api getTaggedInPostNumbers: ",post_id)
+        const numbers = await apiClient.get('/users/post/numbers/'+post_id);
+        console.log("successful result in api get users numbers in post: ",numbers.data);
+        return numbers.data;
+    }catch(error){
+        console.log('Error while getting users tagged in post numbers: ',error.message);
+    }
+}
