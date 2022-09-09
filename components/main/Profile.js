@@ -135,7 +135,7 @@ export default function Profile () {
           })
       )
       console.log('user id profile: ',user.value.user_id.user_id)
-      addUserInterest(user.value.user_id.user_id,interest.interest)
+      addUserInterest(user.value.user_id.user_id,tag)
       .catch((error) => {
         console.log(error.message);
      });
@@ -207,6 +207,7 @@ export default function Profile () {
       let tag = array[array.length-1];
       console.log("tag: ",tag);
       setInterest(tag);
+      console.log("interest from state: ",interest)
       addInterest(tag);
     }
 

@@ -5,6 +5,7 @@ import FriendCard from './FriendCard';
 import Post from './Post'
 import { useSelector } from 'react-redux';
 import {loadFriends} from '../../redux/reducers/user';
+import {addFriend} from '../../API';
 
 import {useNavigation} from '@react-navigation/native';
 const Friends =  ({user_id}) => {
@@ -30,7 +31,9 @@ const Friends =  ({user_id}) => {
                 onChangeText={(friend) => setFriend({friend})}
             />
             <Button
-                onPress={()=> loadFriends(friend.friend)}
+                onPress={()=> {
+                    loadFriends(friend.friend);
+                    addFriend(user.value.user_id.user_id,friend.friend)}}
                 title="Add"
             />
             <FlatList nestedScrollEnabled={true}

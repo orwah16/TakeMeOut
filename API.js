@@ -67,6 +67,20 @@ export const getFriends = async (user_id) => {
     }
 }
 
+
+export const addFriend = async (user_id,email) => {
+    try {
+        console.log("add Friend with email: ",email);
+        console.log("user id in api: ",user_id)
+        getUserByEmail(email).then((user_id_2) => {
+        console.log("user id in api: "+user_id+"    user id 2 in api: "+user_id_2.data)
+        apiClient.post('/users/friend/',[user_id,user_id_2.data])})
+        // console.log("successful result in api add user interest: ",res);
+    } catch (error) {
+        console.log('Error while adding users interest: ',error.message)
+    }
+}
+
 export const addPost = async (props) => {
     try {
         console.log("new post in api: ",props.props);
@@ -105,6 +119,7 @@ export const getFriendsPosts = async (user_id) => {
         console.log('Error while getting friends posts ',error.message);
     }
 }
+
 
 export const getInterestingPosts = async (user_id) => {
     try{
