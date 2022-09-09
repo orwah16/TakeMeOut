@@ -7,12 +7,11 @@ import styled from 'styled-components/native';
 import { Text } from 'react-native'
 import { useSelector} from 'react-redux';
 import {getTaggedInPostIDs,tagPost,deleteTagFrom} from '../../API'
-import { MiddlewareArray } from '@reduxjs/toolkit';
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
   const user = useSelector((state)=>state.user);
   const [tagged, setTag] = useState(false);
-  const [participants, setParticipants] = useState(1);
+  const [participants, setParticipants] = useState(0);
     console.log("item inside SearchCard: ",item);
     const{post_id,user_id,post_interest,post_location,post_title,text,post_date,image}= item;
     const partsArray = post_date.split('T');
@@ -22,28 +21,31 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     console.log("user_id in search card: "+ user_id);
    getTaggedInPostIDs(post_id).then((IDs)=>{
       console.log("ids in search card: ",IDs);
-      setParticipants(IDs.length);
-      IDs.forEach((post) =>{
-      if(post.user_id == user_id){
-          setTag(true);
-      } else {
-          setTag(false);
-    }})
+      setParticipants(IDs.length); // participants == number of tagged (which includes poster)
+      // IDs.forEach((id) =>{
+      // console.log("current user_id: "+id.user_id+"   post user_id: "+user_id);
+      // if(id.user_id == user_id){ // if this is the poster give him gold star
+      //     setTag(true);
+      // }})
+      if(user.value.user_id.user_id == user_id){ // if this is the poster give him gold star
+        setTag(true);
+      }
+      console.log("star: ",tagged);
   });
 
     const manageTags = (event) => {
       console.log("managing tags in searchCard");
-      if (tagged==true){
+      if ((tagged==true) && (user_id != user.value.user_id.user_id)){
         setTag(false);
         setParticipants(participants-1);
         deleteTagFrom(user_id,post_id);
-      }else{
+      }else if(tagged==false){
         setTag(true);
         setParticipants(participants+1);
         tagPost(user_id,post_id);
       }      
     }
-    if(tagged){
+    if(tagged==true){
       return (
         <TouchableWithoutFeedback onPress={onPress}>
         <Card>
@@ -63,7 +65,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             <Row style={{width: '100%'}}>
               <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
               <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
-              <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
+              <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 , color: 'gold' ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
             </Row>
             <Title style={[styles.text]}>{post_title}</Title>
             <Subtitle style={[styles.text]}>{text}</Subtitle>
@@ -90,7 +92,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             <Row style={{width: '100%'}}>
               <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
               <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
-              <AntDesign name='staro' style={{fontSize: 50 , color: 'gold',flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
+              <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
             </Row>
             <Title style={[styles.text]}>{post_title}</Title>
             <Subtitle style={[styles.text]}>{text}</Subtitle>
