@@ -68,7 +68,7 @@ export default function Feed() {
   
     //const tag = data.filter(item = > item.categroy === 'tag') for filtering
     return (
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
             <View style={styles.container}>
                 <View style={styles.drop}>
                     <DropDownPicker 
@@ -83,10 +83,9 @@ export default function Feed() {
                 <TextInput style={styles.searchInput} placeholder='Search here..'                     
                 onChangeText={(searchWord) => setSearchWord({searchWord})}/>
             </View>
-            <View>
             <VerticalList style={styles.list} data={posts}/>
-            </View>
-            </View>
+   
+            </ScrollView>
     )
 }
 
