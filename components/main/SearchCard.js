@@ -36,6 +36,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     const manageTags = (event) => {
       console.log("managing tags in searchCard");
       console.log("poster id: "+user_id+"    user id: "+user.value.user_id.user_id);
+      let flag = 0;
       if ((tagged==true) && (user_id != user.value.user_id.user_id)){
         console.log("reducing tagged (not poster)");
         setTag(false)
@@ -45,7 +46,6 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
         .then(decreaseInterestRating(user.value.user_id.user_id,post_interest))//and update all posts rating in tags
       }else if((tagged==false)&& (user_id != user.value.user_id.user_id)){
         console.log("tagging (not poster)");
-        let flag = 0;
         setTag(true);
         setParticipants(participants+1);
         console.log("calling tag post")
@@ -56,11 +56,11 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             console.log("user's interest: "+interest+"   vs   post interest: "+post_interest)
             increaseInterestRating(user.value.user_id.user_id,post_interest);//and update posts rating in tags
             flag = 1;
-          }else if(flag == 0){
+          }})).then(()=>{
+        if(flag == 0){
             console.log("calling addUserInterest in search card");
             addUserInterest(user.value.user_id.user_id,post_interest);
-          }
-        }))
+        }})
       }      
     }
     if(tagged==true){

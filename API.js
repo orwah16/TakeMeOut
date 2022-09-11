@@ -38,7 +38,7 @@ export const addUserInterest = async (user_id,interest_name) => {
         console.log("user id in api: ",user_id)
         //const userID = await apiClient.get('/users/:email',[email]);
         const interestID = await apiClient.post('/interests/',[interest_name,user_id]);
-        // console.log("successful result in api add user interest: ",res);
+        console.log("successful result in api add user interest: ",interestID);
     } catch (error) {
         console.log('Error while adding users interest: ',error.message)
     }
@@ -188,22 +188,22 @@ export const getTaggedInPostNumbers = async (post_id) => {
 
 export const increaseInterestRating = async (user_id,interest_name) => {
     try {
-        console.log("increasing interest rating in api: ",imageURL);
+        console.log("increasing interest rating in api: ",interest_name);
         //const userID = await apiClient.get('/users/:email',[email]);
         const interestID = await apiClient.put('/interests/rating/add/',[user_id,interest_name]);
-        // console.log("successful result in api add user interest: ",res);
+        console.log("successful result in api increase interest rating: ",interestID);
     } catch (error) {
-        console.log('Error while adding image to post: ',error.message)
+        console.log('Error while increasing user_interest rating: ',error.message)
     }
 }
 
 export const decreaseInterestRating = async (user_id,interest_name) => {
     try {
-        console.log("reducing interest rating in api: ",imageURL);
+        console.log("reducing interest rating in api: ",interest_name);
         //const userID = await apiClient.get('/users/:email',[email]);
         const interestID = await apiClient.put('/interests/rating/sub/',[user_id,interest_name]);
-        // console.log("successful result in api add user interest: ",res);
+        console.log("successful result in api decrease interest rating: ",interestID);
     } catch (error) {
-        console.log('Error while adding image to post: ',error.message)
+        console.log('Error while decreasing user_interest rating: ',error.message)
     }
 }
