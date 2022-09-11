@@ -58,7 +58,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
             flag = 1;
           }else if(flag == 0){
             console.log("calling addUserInterest in search card");
-            addUserInterest(user.value.user_id.user_id,interest);
+            addUserInterest(user.value.user_id.user_id,post_interest);
           }
         }))
       }      
