@@ -145,7 +145,7 @@ export const getTaggedInPosts = async (user_id) => {
 
 export const getTaggedInPostIDs = async (post_id) => {
     try{
-        console.log("user id in api getTaggedInPostIDs: ",post_id)
+        console.log("post id in api getTaggedInPostIDs: ",post_id)
         const taggedInPost = await apiClient.get('/users/post/ids/'+post_id);
         console.log("successful result in api get users tagged in post: ",taggedInPost.data);
         return taggedInPost.data;
@@ -156,17 +156,18 @@ export const getTaggedInPostIDs = async (post_id) => {
 
 export const tagPost = async (user_id,post_id) => {
     try{
-        console.log("user id in api to tag post: ",user_id)
+        console.log("user id in api to tag post: "+user_id+"   post: "+post_id);
         const result = await apiClient.post('/users/post/tag/',[user_id,post_id]);
         console.log("successful result in api post tagged: ",result);
+        return result;
     }catch(error){
         console.log('Error while getting tagged in posts ids: ',error.message);
     }
 }
 
-export const deleteTagFrom = async (user_id,post_id) => {
+export const deleteTagFromPost = async (user_id,post_id) => {
     try{
-        console.log("user id in api to tag post: ",user_id)
+        console.log("user id in api to delete tag from post: ",user_id)
         const result = await apiClient.post('/users/post/delete/tag/',[user_id,post_id]);
         console.log("successful result in api delete post tag: ",result);
     }catch(error){
@@ -182,5 +183,27 @@ export const getTaggedInPostNumbers = async (post_id) => {
         return numbers.data;
     }catch(error){
         console.log('Error while getting users tagged in post numbers: ',error.message);
+    }
+}
+
+export const increaseInterestRating = async (user_id,interest_name) => {
+    try {
+        console.log("increasing interest rating in api: ",imageURL);
+        //const userID = await apiClient.get('/users/:email',[email]);
+        const interestID = await apiClient.put('/interests/rating/add/',[user_id,interest_name]);
+        // console.log("successful result in api add user interest: ",res);
+    } catch (error) {
+        console.log('Error while adding image to post: ',error.message)
+    }
+}
+
+export const decreaseInterestRating = async (user_id,interest_name) => {
+    try {
+        console.log("reducing interest rating in api: ",imageURL);
+        //const userID = await apiClient.get('/users/:email',[email]);
+        const interestID = await apiClient.put('/interests/rating/sub/',[user_id,interest_name]);
+        // console.log("successful result in api add user interest: ",res);
+    } catch (error) {
+        console.log('Error while adding image to post: ',error.message)
     }
 }

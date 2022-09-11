@@ -6,7 +6,7 @@ import Subtitle from './Subtitle'
 import styled from 'styled-components/native';
 import { Text } from 'react-native'
 import { useSelector} from 'react-redux';
-import {getTaggedInPostIDs,tagPost,deleteTagFrom} from '../../API'
+import {getTaggedInPostIDs,tagPost,deleteTagFromPost,increaseInterestRating,addUserInterest,decreaseInterestRating} from '../../API'
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
   const user = useSelector((state)=>state.user);
@@ -22,27 +22,45 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
    getTaggedInPostIDs(post_id).then((IDs)=>{
       console.log("ids in search card: ",IDs);
       setParticipants(IDs.length); // participants == number of tagged (which includes poster)
-      // IDs.forEach((id) =>{
-      // console.log("current user_id: "+id.user_id+"   post user_id: "+user_id);
-      // if(id.user_id == user_id){ // if this is the poster give him gold star
-      //     setTag(true);
-      // }})
       if(user.value.user_id.user_id == user_id){ // if this is the poster give him gold star
         setTag(true);
-      }
+      }else{
+        IDs.forEach((id) =>{
+        console.log("current user_id: "+id.user_id+"   post user_id: "+user_id);
+        if(id.user_id == user.value.user_id.user_id){ // if this is the poster give him gold star
+            setTag(true);
+      }})}
       console.log("star: ",tagged);
   });
 
     const manageTags = (event) => {
       console.log("managing tags in searchCard");
+      console.log("poster id: "+user_id+"    user id: "+user.value.user_id.user_id);
       if ((tagged==true) && (user_id != user.value.user_id.user_id)){
-        setTag(false);
-        setParticipants(participants-1);
-        deleteTagFrom(user_id,post_id);
-      }else if(tagged==false){
+        console.log("reducing tagged (not poster)");
+        setTag(false)
+        setParticipants(participants-1)
+        deleteTagFromPost(user.value.user_id.user_id,post_id)
+        //reduce rating for friend and interest
+        .then(decreaseInterestRating(user.value.user_id.user_id,post_interest))//and update all posts rating in tags
+      }else if((tagged==false)&& (user_id != user.value.user_id.user_id)){
+        console.log("tagging (not poster)");
+        let flag = 0;
         setTag(true);
         setParticipants(participants+1);
-        tagPost(user_id,post_id);
+        console.log("calling tag post")
+        tagPost(user.value.user_id.user_id,post_id)
+        .then(console.log("after tagPost")).then(
+        //increse rating for friend and interest
+        user.intersts[0].forEach((interest) => {if (interest == post_interest){
+            console.log("user's interest: "+interest+"   vs   post interest: "+post_interest)
+            increaseInterestRating(user.value.user_id.user_id,post_interest);//and update posts rating in tags
+            flag = 1;
+          }else if(flag == 0){
+            console.log("calling addUserInterest in search card");
+            addUserInterest(user.value.user_id.user_id,interest);
+          }
+        }))
       }      
     }
     if(tagged==true){

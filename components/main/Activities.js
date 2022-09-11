@@ -13,7 +13,8 @@ export default function Activities() {
         const getPosts = async() => {
             try{
                 console.log("getting posts to Activities: ",user.value.user_id.user_id);
-                const newData = await getTaggedInPosts(user.value.user_id.user_id);
+                var newData = [];
+                newData = await getTaggedInPosts(user.value.user_id.user_id);
                 console.log("Activity get Data= ",newData);
                 setPosts(newData);
                 console.log("posts in activities: ",posts);
