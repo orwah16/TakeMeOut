@@ -21,10 +21,10 @@ export const getUserByEmail = async (email) => {
     }
 }
 
-export const addUser = async (first_name,last_name,email) => {
+export const addUser = async (first_name,last_name,email,phone_number) => {
     try {
-        console.log("add user = first name: ",first_name,last_name,email);
-        const res = await apiClient.post('/users/',[first_name,last_name,email]);
+        console.log("add user = first name: ",first_name,last_name,email,phone_number);
+        const res = await apiClient.post('/users/',[first_name,last_name,email,phone_number]);
         console.log(" add user query res: ",res);
     } catch (error) {
         console.log('Error while adding users.',error.message)

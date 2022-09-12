@@ -1,7 +1,8 @@
 import React, {  useEffect, useState } from 'react'
 import {useSelector } from 'react-redux';
-import {View,Button,TextInput, DatePickerIOS} from 'react-native';
+import {View,Button,TextInput, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styled from 'styled-components/native';
 import Add from './Add';
 function CreatePost( { navigation }) {
     const[interest,setInterest]=useState('');
@@ -12,22 +13,31 @@ function CreatePost( { navigation }) {
 
     return (
         <View>
-            <TextInput
+            <Card>
+                <TextInput style={[styles.text]}
                 placeholder="Interest"
                 onChangeText={(interest) => setInterest({interest})}
             />
-            <TextInput
+            </Card>
+            <Card>
+                <TextInput style={[styles.text]}
                 placeholder="Location"
                 onChangeText={(location) => setLocation({location})}
             />
-            <TextInput
+            </Card>
+            <Card>
+                <TextInput style={[styles.text]}
                 placeholder="Title"
                 onChangeText={(title) => setTitle({title})}
             />
-            <TextInput
+            </Card>
+            <Description>
+                <TextInput style={[styles.text]}
                 placeholder="Descreption"
                 onChangeText={(desc) => setDescription({desc})}
             />
+            </Description>
+            <View  style={{flexDirection: "column",justifyContent: "flex-end"}}>
             <Button
                 onPress={()=> navigation.navigate('Add',{
                     user_id:user.value.user_id.user_id,
@@ -51,7 +61,45 @@ function CreatePost( { navigation }) {
                 title="Save"
 
              />
+             </View>
         </View>
     )
 }
 export default CreatePost;
+
+
+const styles = StyleSheet.create({
+
+    text:{
+        fontSize: 20,
+        textAlign: "center"
+    },
+    column:{
+        flexDirection: "column",
+    }
+})
+
+const Card = styled.View`
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  height : 30px;
+  overflow: hidden;
+  width: 90%;
+  margin-bottom: 10px;
+  align_self: center;
+  align_content: center;
+  
+  `;
+  const Description = styled.View`
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  height : 90px;
+  overflow: hidden;
+  width: 90%;
+  margin-bottom: 60px;
+  align_self: center;
+  align_content: center;
+  
+  `;
