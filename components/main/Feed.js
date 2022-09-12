@@ -7,7 +7,7 @@ import data from './fakeData'
 import VerticalList from './VerticalList'
 import apiClient from '../../client';
 import { useDispatch } from 'react-redux';
-import { getFriendsPosts,getInterestingPosts } from '../../API'
+import { getFriendsPosts,getInterestingPosts,getUserInterestsOrdered,decreaseInterestRating} from '../../API'
 import {useSelector } from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -53,9 +53,46 @@ export default function Feed() {
                             console.log(array);
                         }
                     })
-                    setPosts(array);
-                } 
+                        newData=array;
+                        setPosts(array);
+                }
+                if(value == 'interests'){
+                    console.log("value == interests");
+                    var resultArray = [];
+                    var userInterests = await getUserInterestsOrdered(user.value.user_id.user_id);//sorted by rating 
+                    console.log("userInterests ordered in Feed: ",userInterests);
+                    resultArray = userInterests.slice(0,5);
+                    console.log("resultArray ordered in Feed: ",resultArray);
+                    //let updatedData = await reduceRating(user.value.user_id.user_id,resultArray);
 
+                    for(let i = 0;i<resultArray.length;i++){
+                        console.log("decreasing interest: ",resultArray[i]);
+                        decreaseInterestRating(user.value.user_id.user_id,resultArray[i]);
+                    }
+                    let flag;
+                    var chosenPosts = [];
+                    //if(searchWord!="")
+                    var array2 = newData ;
+                    console.log("array2: ",array2);
+                    resultArray.forEach((interest) => {
+                        flag = false;
+                        console.log("interest to pick best posts: ",interest);
+                        for(let i = 0;i<array2.length;i++){
+                            let post=array2[i];
+                            console.log("post to add to chosen: ", post);
+                            if((post.post_interest == interest) && (flag == false)){
+                                flag = true;
+                                console.log("Chosen Post: ",post);
+                                chosenPosts.push(post);//add post to chosen
+                                array2.splice(i,1);//delete post from original
+                            }
+                        }
+                    })
+                    console.log("array2 before concat: ",array2);
+                    chosenPosts.concat(array2);
+                    console.log("Chosen Posts: ",chosenPosts);
+                    setPosts(chosenPosts);
+                }
                 console.log("posts: ",posts);
   
             } catch (error) {

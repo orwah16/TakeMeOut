@@ -56,6 +56,17 @@ export const getUserInterests = async (user_id) => {
     }
 }
 
+export const getUserInterestsOrdered = async (user_id) => {
+    try {
+        console.log("user id in api getUserInterests: ",user_id)
+        const interests = await apiClient.get('/interests/ordered/'+user_id);
+        console.log("successful result in api get user interests ordered: ",interests.data);
+        return interests.data;
+    } catch (error) {
+        console.log('Error while adding users interest ordered: ',error.message)
+    }
+}
+
 export const getFriends = async (user_id) => {
     try{
         console.log("user id in api getFriends: ",user_id)
@@ -205,5 +216,16 @@ export const decreaseInterestRating = async (user_id,interest_name) => {
         console.log("successful result in api decrease interest rating: ",interestID);
     } catch (error) {
         console.log('Error while decreasing user_interest rating: ',error.message)
+    }
+}
+
+export const reduceRating = async (user_id,...args) => {
+    try {
+        console.log("reducing interest rating in api for use and interests: ",user_id,...args);
+        //const userID = await apiClient.get('/users/:email',[email]);
+        const interestID = await apiClient.put('/interests/rating/reduce/',[user_id,...args]);
+        console.log("successful result in api decrease interest rating: ",interestID);
+    } catch (error) {
+        console.log('Error while reducing user_interest rating: ',error.message)
     }
 }

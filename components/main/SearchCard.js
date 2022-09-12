@@ -20,17 +20,17 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     console.log("time: "+time+" date: "+date);
     console.log("user_id in search card: "+ user_id);
    getTaggedInPostIDs(post_id).then((IDs)=>{
-      console.log("ids in search card: ",IDs);
+      //console.log("ids in search card: ",IDs);
       setParticipants(IDs.length); // participants == number of tagged (which includes poster)
       if(user.value.user_id.user_id == user_id){ // if this is the poster give him gold star
         setTag(true);
       }else{
         IDs.forEach((id) =>{
-        console.log("current user_id: "+id.user_id+"   post user_id: "+user_id);
+        //console.log("current user_id: "+id.user_id+"   post user_id: "+user_id);
         if(id.user_id == user.value.user_id.user_id){ // if this is the poster give him gold star
             setTag(true);
       }})}
-      console.log("star: ",tagged);
+      //console.log("star: ",tagged);
   });
 
     const manageTags = (event) => {
@@ -50,15 +50,16 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
         setParticipants(participants+1);
         console.log("calling tag post")
         tagPost(user.value.user_id.user_id,post_id)
-        .then(console.log("after tagPost")).then(
+        //.then(console.log("after tagPost"))
+        .then(
         //increse rating for friend and interest
         user.intersts[0].forEach((interest) => {if (interest == post_interest){
-            console.log("user's interest: "+interest+"   vs   post interest: "+post_interest)
+            //console.log("user's interest: "+interest+"   vs   post interest: "+post_interest)
             increaseInterestRating(user.value.user_id.user_id,post_interest);//and update posts rating in tags
             flag = 1;
           }})).then(()=>{
         if(flag == 0){
-            console.log("calling addUserInterest in search card");
+            //console.log("calling addUserInterest in search card");
             addUserInterest(user.value.user_id.user_id,post_interest);
         }})
       }      
