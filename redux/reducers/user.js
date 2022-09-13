@@ -23,6 +23,10 @@ export const user = createSlice({
             console.log("action payload updateInterest: ",action.payload.interest);
             state.intersts=[...state.intersts, action.payload.interest];
         },
+        updateOneInterest: (state,action)=>{
+            console.log("action payload updateInterest: ",action.payload.interest);
+            state.intersts[0]=[...state.intersts[0], action.payload.interest];
+        },
         loadFriends: (state,action)=>{
             try{
                 console.log("action payload updateFriend: ",action.payload.friend);
@@ -45,7 +49,7 @@ export const user = createSlice({
         }  
     },
 });
-export const {login,logout,updateInterest,updateId,updateName,updateFriend,loadFriends,loadImage,loadFeedValue,numberOfTaggedPosts} = user.actions
+export const {login,logout,updateInterest,updateId,updateName,updateOneInterest,updateFriend,loadFriends,loadImage,loadFeedValue,numberOfTaggedPosts} = user.actions
 export const selectUser = (state) => state.user.value;//changed to value since that is what changes
 export default user.reducer;
 

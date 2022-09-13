@@ -6,11 +6,12 @@ import Subtitle from './Subtitle'
 import styled from 'styled-components/native';
 import { Text } from 'react-native'
 import { useSelector} from 'react-redux';
-import {getTaggedInPostIDs,tagPost,deleteTagFromPost,increaseInterestRating,addUserInterest,decreaseInterestRating} from '../../API'
+import {getUserInterestsOrdered,getTaggedInPostIDs,tagPost,deleteTagFromPost,increaseInterestRating,addUserInterest,decreaseInterestRating} from '../../API'
 
 const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are for making componints styles more Flexible 
   const user = useSelector((state)=>state.user);
   const [tagged, setTag] = useState(false);
+
   const [participants, setParticipants] = useState(0);
     console.log("item inside SearchCard: ",item);
     const{post_id,user_id,post_interest,post_location,post_title,text,post_date,image}= item;
@@ -37,6 +38,8 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
       console.log("managing tags in searchCard");
       console.log("poster id: "+user_id+"    user id: "+user.value.user_id.user_id);
       let flag = 0;
+      
+
       if ((tagged==true) && (user_id != user.value.user_id.user_id)){
         console.log("reducing tagged (not poster)");
         setTag(false)
@@ -51,17 +54,18 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
         console.log("calling tag post")
         tagPost(user.value.user_id.user_id,post_id)
         //.then(console.log("after tagPost"))
-        .then(
+        .then(getUserInterestsOrdered(user.value.user_id.user_id).then((interests)=>{ // get updated interests
         //increse rating for friend and interest
-        user.intersts[0].forEach((interest) => {if (interest == post_interest){
+        console.log("interests issue: ",interests);
+        interests.forEach((interest) => {if (interest == post_interest){
             //console.log("user's interest: "+interest+"   vs   post interest: "+post_interest)
             increaseInterestRating(user.value.user_id.user_id,post_interest);//and update posts rating in tags
             flag = 1;
-          }})).then(()=>{
+          }})}).then(()=>{
         if(flag == 0){
             //console.log("calling addUserInterest in search card");
             addUserInterest(user.value.user_id.user_id,post_interest);
-        }})
+        }}))
       }      
     }
     if(tagged==true){
@@ -82,7 +86,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
           </Row>
           <Card_body>
             <Row style={{width: '100%'}}>
-              <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+              <Image source={require('../../assets/profilepic.jpg')} style={[styles.image2,imageStyle]} />
               <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
               <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 , color: 'gold' ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
             </Row>
@@ -109,7 +113,7 @@ const SearchCard = ({style,imageStyle,item,onPress}) => {//these two props are f
           </Row>
           <Card_body>
             <Row style={{width: '100%'}}>
-              <Image source={require('../../assets/profilepic.png')} style={[styles.image2,imageStyle]} />
+              <Image source={require('../../assets/profilepic.jpg')} style={[styles.image2,imageStyle]} />
               <Text style={[styles.number]} >{"Participants :  "+participants}</Text>
               <AntDesign name='staro' style={{fontSize: 50 ,flex: 1 ,textAlign: "right",marginRight: 50 ,marginTop: 30}} onPress={() => manageTags()}/>
             </Row>

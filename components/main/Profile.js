@@ -1,5 +1,5 @@
 import { useDispatch,useSelector } from 'react-redux';
-import { logout,updateInterest } from '../../redux/reducers/user';
+import { logout,updateInterest,updateOneInterest } from '../../redux/reducers/user';
 import data from './fakeData';
 import React, {useState } from 'react';
 import { addUserInterest} from '../../API';
@@ -127,13 +127,29 @@ export default function Profile () {
     });
   
 
+
+
+
+
+
   const addInterest = (tag) => {
    console.log("new interest: ",tag);
       dispatch(
-          updateInterest({
+          updateOneInterest({
             interest: tag,
           })
       )
+    //   setTabs({      
+    //     tabs: {
+    //     index: 0,
+    //     routes: [
+    //       { key: '1', title: 'interests', count: user.intersts[0].length },
+    //       { key: '2', title: 'activities', count: user.numberOfTaggedPosts },
+    //       { key: '3', title: 'friends', count: user.friends[0].length },
+    //     ],
+    //   },
+    // })
+    tabState.tabs.routes[0].count+=1;
       console.log('user id profile: ',user.value.user_id.user_id)
       addUserInterest(user.value.user_id.user_id,tag)
       .catch((error) => {
@@ -157,6 +173,7 @@ export default function Profile () {
     }
   
     const handleIndexChange = index => {
+      tabState.tabs.routes[2].count=user.friends[0].length;
       console.log("rendering handel index exchange");
       setTabs({
         tabs: {

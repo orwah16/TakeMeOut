@@ -10,7 +10,7 @@ const FriendCard = ({style,imageStyle,item,onPress}) => {//these two props are f
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={[styles.container,style]}>
-                <Image source={require('../../assets/profilepic.png')} style={[styles.image,imageStyle]}/>
+                <Image source={require('../../assets/profilepic.jpg')} style={[styles.image,imageStyle]}/>
                 <View style={styles.contentContainer}>
                 <Title>{first_name +' '+ last_name}</Title>
                 <Subtitle>{email}</Subtitle>

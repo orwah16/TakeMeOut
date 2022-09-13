@@ -9,7 +9,6 @@ import { fetchUser } from '../redux/actions/index';
 import userReducer from '../App';
 
 import FeedScreen from './main/Feed';
-import AddScreen from './main/Add';
 import ProfileScreen from './main/Profile';
 import CreatePost from './main/CreatePost';
 

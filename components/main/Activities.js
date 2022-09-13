@@ -24,6 +24,6 @@ export default function Activities() {
             }
         }
         getPosts();
-    },[]); //to search for the value in the drop
+    },); //to search for the value in the drop
     return(<VerticalList data={posts}/>);
 }
