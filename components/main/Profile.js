@@ -1,8 +1,8 @@
 import { useDispatch,useSelector } from 'react-redux';
-import { logout,updateInterest,updateOneInterest } from '../../redux/reducers/user';
+import { logout,updateInterest,updateOneInterest ,reloadInterests} from '../../redux/reducers/user';
 import data from './fakeData';
-import React, {useState } from 'react';
-import { addUserInterest} from '../../API';
+import React, {useState,useEffect } from 'react';
+import { addUserInterest,getUserInterests} from '../../API';
 import Tags from "react-native-tags";
 import Activities from './Activities';
 
@@ -31,84 +31,14 @@ import VerticalList from './VerticalList';
 import interests from './Interests';
 import Friends from './Friends';
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  headerContainer: {
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    marginBottom: 10,
-    marginTop: 45,
-  },
-  indicatorTab: {
-    backgroundColor: 'transparent',
-  },
-  scroll: {
-    backgroundColor: '#FFF',
-  },
-  sceneContainer: {
-    marginTop: 10,
-  },
-  tabBar: {
-    backgroundColor: '#EEE',
-  },
-  tabContainer: {
-    flex: 1,
-    marginBottom: 12,
-  },
-  tabLabelNumber: {
-    color: 'gray',
-    fontSize: 12.5,
-    textAlign: 'center',
-  },
-  tabLabelText: {
-    color: 'black',
-    fontSize: 22.5,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  userBioRow: {
-    marginLeft: 40,
-    marginRight: 40,
-  },
-  userBioText: {
-    color: 'gray',
-    fontSize: 13.5,
-    textAlign: 'center',
-  },
-  userImage: {
-    borderRadius: 60,
-    height: 120,
-    marginBottom: 10,
-    width: 120,
-  },
-  userNameRow: {
-    marginBottom: 10,
-  },
-  userNameText: {
-    color: '#5B5A5A',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  userRow: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-})
+
 export default function Profile () {
   const dispatch = useDispatch();
   const user = useSelector((state)=>state.user);
   console.log("user selector test (user_id): ",user);
   const[friends,setFriends]=useState([]);
   const[interest,setInterest]=useState('');
-
+  var refresh = 0;
   // const updateTagState = (user) => {
   //   setInterest({
   //     tagsArray: user.interests[0]
@@ -127,11 +57,6 @@ export default function Profile () {
     });
   
 
-
-
-
-
-
   const addInterest = (tag) => {
    console.log("new interest: ",tag);
       dispatch(
@@ -139,16 +64,7 @@ export default function Profile () {
             interest: tag,
           })
       )
-    //   setTabs({      
-    //     tabs: {
-    //     index: 0,
-    //     routes: [
-    //       { key: '1', title: 'interests', count: user.intersts[0].length },
-    //       { key: '2', title: 'activities', count: user.numberOfTaggedPosts },
-    //       { key: '3', title: 'friends', count: user.friends[0].length },
-    //     ],
-    //   },
-    // })
+
     tabState.tabs.routes[0].count+=1;
       console.log('user id profile: ',user.value.user_id.user_id)
       addUserInterest(user.value.user_id.user_id,tag)
@@ -226,6 +142,7 @@ export default function Profile () {
       setInterest(tag);
       console.log("interest from state: ",interest)
       addInterest(tag);
+      //renderScene;
     }
 
   //   friendsHandler = async (user_id)=>{
@@ -240,6 +157,16 @@ export default function Profile () {
   //    })
   //   return null;
   //  }
+
+  useEffect(userID=>
+    getUserInterests(userID).then((response)=>{
+      console.log('user interests response: ',response);
+      dispatch(
+        reloadInterests({
+          interest: response,
+      }))
+      renderScene;
+    }),[interest])
 
     const renderScene = ({ route: { key } }) => {
       //const { posts } = this.props
@@ -270,8 +197,9 @@ export default function Profile () {
           }}
         />
         </View>) //interests
+
         case '2':
-          return <Activities /> //activities(posts)
+          return <Activities refresh={refresh++}/> //activities(posts)
         case '3':
           return <Friends user_id={user.value.user_id.user_id}/>
         default:
@@ -322,3 +250,74 @@ export default function Profile () {
     }
 
               
+const styles = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    marginBottom: 10,
+    marginTop: 45,
+  },
+  indicatorTab: {
+    backgroundColor: 'transparent',
+  },
+  scroll: {
+    backgroundColor: '#FFF',
+  },
+  sceneContainer: {
+    marginTop: 10,
+  },
+  tabBar: {
+    backgroundColor: '#EEE',
+  },
+  tabContainer: {
+    flex: 1,
+    marginBottom: 12,
+  },
+  tabLabelNumber: {
+    color: 'gray',
+    fontSize: 12.5,
+    textAlign: 'center',
+  },
+  tabLabelText: {
+    color: 'black',
+    fontSize: 22.5,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  userBioRow: {
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  userBioText: {
+    color: 'gray',
+    fontSize: 13.5,
+    textAlign: 'center',
+  },
+  userImage: {
+    borderRadius: 60,
+    height: 120,
+    marginBottom: 10,
+    width: 120,
+  },
+  userNameRow: {
+    marginBottom: 10,
+  },
+  userNameText: {
+    color: '#5B5A5A',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  userRow: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+})

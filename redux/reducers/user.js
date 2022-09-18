@@ -27,10 +27,22 @@ export const user = createSlice({
             console.log("action payload updateInterest: ",action.payload.interest);
             state.intersts[0]=[...state.intersts[0], action.payload.interest];
         },
+        reloadInterests: (state,action)=>{
+            console.log("action payload updateInterest: ",action.payload.interest);
+            state.intersts=[action.payload.interest];
+        },
         loadFriends: (state,action)=>{
             try{
                 console.log("action payload updateFriend: ",action.payload.friend);
                 state.friends=[...state.friends, action.payload.friend];
+            }catch(error){
+                console.log("update friend error message: ",error.message);
+            }
+        },
+        reloadFriends: (state,action)=>{
+            try{
+                console.log("action payload updateFriend: ",action.payload.friend);
+                state.friends=[action.payload.friend];
             }catch(error){
                 console.log("update friend error message: ",error.message);
             }
@@ -46,10 +58,14 @@ export const user = createSlice({
         numberOfTaggedPosts: (state,action)=>{
             console.log("action payload number of tagged posts: ",action.payload.numberOfTaggedPosts);
             state.numberOfTaggedPosts = action.payload;
-        }  
+        },
+        updateRefreshing: (state,action)=>{
+            console.log("action payload updateFeed: ",action.payload.refresh);
+            state.refresh = action.payload;
+        },  
     },
 });
-export const {login,logout,updateInterest,updateId,updateName,updateOneInterest,updateFriend,loadFriends,loadImage,loadFeedValue,numberOfTaggedPosts} = user.actions
+export const {updateRefreshing,reloadFriends,login,logout,reloadInterests,updateInterest,updateId,updateName,updateOneInterest,updateFriend,loadFriends,loadImage,loadFeedValue,numberOfTaggedPosts} = user.actions
 export const selectUser = (state) => state.user.value;//changed to value since that is what changes
 export default user.reducer;
 

@@ -1,15 +1,17 @@
-import React from 'react'
+import React ,{useState,useEffect} from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 import SearchCard from './SearchCard'
 import {useNavigation} from '@react-navigation/native';
-import {useSelector } from 'react-redux';
-import {getTaggedInPostNumbers} from '../../API'
+import {useSelector,useDispatch } from 'react-redux';
+import {getTaggedInPostNumbers} from '../../API';
+
 import Numbers from './Numbers'
 const VerticalList = ({data}) => {
     const user = useSelector((state)=>state.user);
     const posts=data;
     console.log("items in vertical list: ",data);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const showNumbers = (user_id,post_id) => {//check if owner of post
         console.log("user_id to showNumbers: "+ user_id + " post_id: "+post_id);
@@ -20,6 +22,7 @@ const VerticalList = ({data}) => {
             });
         }
     }
+
     return (
         <View>
             <FlatList nestedScrollEnabled={true}

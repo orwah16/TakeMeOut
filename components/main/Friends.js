@@ -3,17 +3,28 @@ import { StyleSheet, TextInput, View, FlatList,Button } from 'react-native'
 import SearchCard from './SearchCard'
 import FriendCard from './FriendCard';
 import Post from './Post'
-import { useSelector } from 'react-redux';
-import {loadFriends} from '../../redux/reducers/user';
-import {addFriend} from '../../API';
+import { useSelector,useDispatch } from 'react-redux';
+import {reloadFriends} from '../../redux/reducers/user';
+import {addFriend,getFriends} from '../../API';
 
 import {useNavigation} from '@react-navigation/native';
-const Friends =  ({user_id}) => {
+const Friends =  ({}) => {
+    const dispatch = useDispatch();
     const[friend,setFriend]=useState('');
     const user = useSelector((state)=>state.user);
     var friends=user.friends[0];
     console.log('friends from store: ',friends);
     const navigation = useNavigation();
+    // useEffect(()=>{
+    //         getFriends(user.value.user_id.user_id).then((response)=>{
+    //           console.log('user friends response: ',response);
+    //           dispatch(
+    //             loadFriends({
+    //               friend: response,
+    //           }))
+    //         })
+    //     },[friend])
+
 
     // try{
     // const navigation = useNavigation();
@@ -24,6 +35,15 @@ const Friends =  ({user_id}) => {
     // })}     catch(error){
     //     console.log(error.message);
     //}
+    useEffect(()=>{
+        getFriends(user.value.user_id.user_id).then((response)=>{
+          console.log('user friends response: ',response);
+          dispatch(
+            reloadFriends({
+              friend: response,
+          }))
+        })
+    },[friend])
     return (
         <View>
             <TextInput
@@ -32,8 +52,10 @@ const Friends =  ({user_id}) => {
             />
             <Button
                 onPress={()=> {
-                    loadFriends(friend.friend);
-                    addFriend(user.value.user_id.user_id,friend.friend)}}
+                    //loadFriends(friend.friend);
+                    addFriend(user.value.user_id.user_id,friend.friend)
+                    setFriend(friend.friend)
+                }}
                 title="Add"
             />
             <FlatList nestedScrollEnabled={true}
